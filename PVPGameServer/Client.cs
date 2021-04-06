@@ -14,6 +14,8 @@ namespace PVPGameServer
         public bool Closing;
         public byte[] ReadBuff;
 
+        private ServerDataHandler DataHandler;
+
         public Client(int index, string ip, TcpClient socket)
         {
             Index = index;
@@ -24,6 +26,7 @@ namespace PVPGameServer
 
         public void Start()
         {
+            DataHandler = new ServerDataHandler();
             Socket.SendBufferSize = 4096;
             Socket.ReceiveBufferSize = 4096;
             Stream = Socket.GetStream();
@@ -47,6 +50,7 @@ namespace PVPGameServer
                 Array.Resize(ref newBytes, readBytes);
                 Buffer.BlockCopy(ReadBuff, 0, newBytes, 0, readBytes);
                 // Data
+                DataHandler.HandleNetworkMessages(Index, newBytes);
                 Stream.BeginRead(ReadBuff, 0, Socket.ReceiveBufferSize, OnReceiveData, null);
             }
             catch
@@ -59,7 +63,7 @@ namespace PVPGameServer
         {
             Console.WriteLine(string.Format("La connexion avec {0} à étais coupé.", Ip));
             Socket.Close();
-            Socket = null;
+            ServerTCP.Clients[Index] = null;
         }
     }
 }
