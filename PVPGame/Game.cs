@@ -9,7 +9,9 @@ namespace PVPGame
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
         private ClientTCP clienTCP;
+        private ClientDataHandler DataHandler;
 
         public Game()
         {
@@ -21,8 +23,11 @@ namespace PVPGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            DataHandler = new ClientDataHandler();
             clienTCP = new ClientTCP();
             base.Initialize();
+
+            clienTCP.SendLogin();
         }
 
         protected override void LoadContent()
@@ -38,7 +43,6 @@ namespace PVPGame
                 Exit();
 
             // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
