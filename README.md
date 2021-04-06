@@ -6,11 +6,14 @@ Un jeux en ligne créé en C# à l'aide de Monogame.
 - Thomas Auriol
 
 ## Rôles
-- Thomas :
-> Développement
-- Léa :
-> Création des présentations
-> UML
+Thomas :
+>- Développement
+
+Léa :
+>- Déploiement infrastructure
+>- Déploiement base de donnée
+>- Création des présentations
+>- UML
 
 ## Projet
 Un jeu jouable en ligne ou le but sera de gagner le round contre d'autres joueurs en chacun pour sa peau.
