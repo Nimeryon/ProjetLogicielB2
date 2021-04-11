@@ -11,6 +11,7 @@ namespace Bindings
 
     public enum ClientPackets
     {
-        ClientLogin = 1
+        ClientLogin = 1,
+        ClientMovement = 2,
     }
 }

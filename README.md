@@ -1,6 +1,10 @@
 # ProjetLogiciel
 Un jeux en ligne créé en C# à l'aide de Monogame.
 
+## Sources et remerciement
+Inspiration pour les classes Renderable | Transform.
+> https://github.com/RonenNess/MonoGame-Sprites
+
 ## Groupe
 - Léa Duvigneau
 - Thomas Auriol
