@@ -4,6 +4,8 @@ Un jeux en ligne créé en C# à l'aide de Monogame.
 ## Sources et remerciement
 Inspiration pour les classes Renderable | Transform.
 > https://github.com/RonenNess/MonoGame-Sprites
+Myra UI Modifié
+https://github.com/rds1983/Myra
 
 ## Groupe
 - Léa Duvigneau

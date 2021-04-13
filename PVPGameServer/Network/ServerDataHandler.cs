@@ -50,7 +50,7 @@ namespace PVPGameServer
             buffer.GetInt();
             float x = buffer.GetFloat();
             float y = buffer.GetFloat();
-            Console.WriteLine(string.Format("Mouvement de Index {0} : x:{1}|y:{2}!", index, x, y));
+            Console.WriteLine(string.Format("Mouvement de Index {0} : x:{1} y:{2}", index, x, y));
             buffer.Dispose();
         }
     }

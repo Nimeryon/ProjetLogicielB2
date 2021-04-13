@@ -19,18 +19,16 @@ namespace PVPGameClient
         public static event UpdateEvent OnLateUpdate;
 
         // Important System
-        public static TickSystem Ticks;
-        public static InputSystem Inputs;
+        public TickSystem Ticks;
+        private InputSystem Inputs;
         private FPSCounter FPS;
 
         // Start
         public static SpriteFont _font;
+        public Player Player;
         Texture2D _texture;
-        Vector2 _position;
-        float _speed = 10f;
-        Text test;
 
-        private ClientTCP ClienTCP;
+        public static ClientTCP ClienTCP;
         private ClientDataHandler DataHandler;
 
         public GameHandler()
@@ -46,8 +44,7 @@ namespace PVPGameClient
 
         protected override void Initialize()
         {
-            // More than 60 FPS
-            IsFixedTimeStep = false;
+            //IsFixedTimeStep = false;
             Graphics.PreferredBackBufferWidth = 1080;
             Graphics.PreferredBackBufferHeight = 720;
             Graphics.ApplyChanges();
@@ -69,20 +66,17 @@ namespace PVPGameClient
 
             int width = Graphics.GraphicsDevice.Viewport.Width;
             int height = Graphics.GraphicsDevice.Viewport.Height;
-            _position = new Vector2(width / 2, height / 2);
 
             // Create text
-            new Text(_font, "Top Center", new Vector2(width / 2, 0f), Alignment.TopCenter);
+            /*new Text(_font, "Top Center", new Vector2(width / 2, 0f), Alignment.TopCenter);
             new Text(_font, "Top Right", new Vector2(width, 0f), Alignment.TopRight);
             new Text(_font, "Middle Left", new Vector2(0, height / 2), Alignment.MiddleLeft);
-            test = new Text(_font, "Middle Center", new Vector2(width / 2, height / 2), Alignment.MiddleCenter);
             new Text(_font, "Middle Right", new Vector2(width, height / 2), Alignment.MiddleRight);
             new Text(_font, "Bottom Left", new Vector2(0, height), Alignment.BottomLeft);
             new Text(_font, "Bottom Center", new Vector2(width / 2, height), Alignment.BottomCenter);
-            new Text(_font, "Bottom Right", new Vector2(width, height), Alignment.BottomRight);
+            new Text(_font, "Bottom Right", new Vector2(width, height), Alignment.BottomRight);*/
 
-            //var spr = new Sprite(_texture, new Vector2(width / 2, height / 2), Alignment.MiddleCenter);
-            //spr.SetFromSpriteSheet(new Point(1, 0), new Point(3, 4));
+            //Player = new Player(_texture, new Vector2(width / 2, height / 2));
 
             // Initialize important systems
             Ticks = new TickSystem();
@@ -97,24 +91,6 @@ namespace PVPGameClient
 
             // Events
             OnUpdate?.Invoke();
-
-            // Keyboard Input
-            /*if (keyState.IsKeyDown(Keys.Z))
-            {
-                _position.Y -= _speed * Globals.DeltaTime10;
-            }
-            if (keyState.IsKeyDown(Keys.S))
-            {
-                _position.Y += _speed * Globals.DeltaTime10;
-            }
-            if (keyState.IsKeyDown(Keys.Q))
-            {
-                _position.X -= _speed * Globals.DeltaTime10;
-            }
-            if (keyState.IsKeyDown(Keys.D))
-            {
-                _position.X += _speed * Globals.DeltaTime10;
-            }*/
 
             base.Update(gameTime);
             LateUpdate();
@@ -137,7 +113,7 @@ namespace PVPGameClient
             OnDraw?.Invoke();
 
             SpriteBatch.End();
-
+                                                                         
             base.Draw(gameTime);
         }
     }

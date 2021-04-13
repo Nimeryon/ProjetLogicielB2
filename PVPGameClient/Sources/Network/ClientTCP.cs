@@ -3,10 +3,11 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using Bindings;
+using Microsoft.Xna.Framework;
 
 namespace PVPGameClient
 {
-    class ClientTCP
+    public class ClientTCP
     {
         public TcpClient Socket;
         private static NetworkStream Stream;
@@ -85,6 +86,16 @@ namespace PVPGameClient
             buffer.AddInt((int)ClientPackets.ClientLogin);
             buffer.AddString("Nimerya");
             buffer.AddString("Kevin");
+            SendData(buffer.ToArray());
+            buffer.Dispose();
+        }
+
+        public void SendMovement(Vector2 _position)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddInt((int)ClientPackets.ClientMovement);
+            buffer.AddFloat(_position.X);
+            buffer.AddFloat(_position.Y);
             SendData(buffer.ToArray());
             buffer.Dispose();
         }

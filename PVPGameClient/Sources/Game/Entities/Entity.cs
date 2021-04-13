@@ -4,7 +4,8 @@ using System.Text;
 
 namespace PVPGameClient
 {
-    class Entity
+    public abstract class Entity
     {
+        public float Speed = 5f;
     }
 }

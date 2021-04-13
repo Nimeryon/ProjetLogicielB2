@@ -67,13 +67,19 @@ namespace PVPGameClient
         }
         public void Rotate(float _rotation)
         {
-            Rotation += _rotation;
-            NeedUpdate();
+            if (_rotation != 0f)
+            {
+                Rotation += _rotation;
+                NeedUpdate();
+            }
         }
         public void Move(Vector2 _position)
         {
-            Position += _position;
-            NeedUpdate();
+            if (_position != Vector2.Zero)
+            {
+                Position += _position;
+                NeedUpdate();
+            }
         }
         public Renderable GetChild(int index)
         {

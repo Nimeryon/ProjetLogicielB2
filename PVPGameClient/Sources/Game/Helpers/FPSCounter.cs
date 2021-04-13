@@ -26,7 +26,7 @@ namespace PVPGameClient
         }
         private void Update()
         {
-            Counter.SetText(((int)(1  / Globals.DeltaTime)).ToString());
+            Counter.SetText(Math.Ceiling(1  / Globals.DeltaTime).ToString());
         }
     }
 }
