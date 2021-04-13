@@ -6,6 +6,6 @@ namespace PVPGameClient
 {
     public abstract class Entity
     {
-        public float Speed = 5f;
+        public float Speed = 10f;
     }
 }

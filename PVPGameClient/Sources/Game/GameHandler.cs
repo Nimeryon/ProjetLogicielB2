@@ -68,15 +68,15 @@ namespace PVPGameClient
             int height = Graphics.GraphicsDevice.Viewport.Height;
 
             // Create text
-            /*new Text(_font, "Top Center", new Vector2(width / 2, 0f), Alignment.TopCenter);
+            new Text(_font, "Top Center", new Vector2(width / 2, 0f), Alignment.TopCenter);
             new Text(_font, "Top Right", new Vector2(width, 0f), Alignment.TopRight);
             new Text(_font, "Middle Left", new Vector2(0, height / 2), Alignment.MiddleLeft);
             new Text(_font, "Middle Right", new Vector2(width, height / 2), Alignment.MiddleRight);
             new Text(_font, "Bottom Left", new Vector2(0, height), Alignment.BottomLeft);
             new Text(_font, "Bottom Center", new Vector2(width / 2, height), Alignment.BottomCenter);
-            new Text(_font, "Bottom Right", new Vector2(width, height), Alignment.BottomRight);*/
+            new Text(_font, "Bottom Right", new Vector2(width, height), Alignment.BottomRight);
 
-            //Player = new Player(_texture, new Vector2(width / 2, height / 2));
+            Player = new Player(_texture, new Vector2(width / 2, height / 2));
 
             // Initialize important systems
             Ticks = new TickSystem();

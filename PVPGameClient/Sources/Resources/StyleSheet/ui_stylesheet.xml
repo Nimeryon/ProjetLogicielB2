@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Stylesheet TextureRegionAtlas="default_ui_skin_atlas.xml">
+<Stylesheet TextureRegionAtlas="ui_stylesheet_atlas.xml">
   <Fonts>
     <Font Id="KenneyMiniSquare" File="KenneyMiniSquare.fnt"/>
     <Font Id="KenneyMiniSquareOutline" File="KenneyMiniSquareOutline.fnt"/>
