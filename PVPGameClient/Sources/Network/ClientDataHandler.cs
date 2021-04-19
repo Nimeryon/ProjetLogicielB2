@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Bindings;
+using GeonBit.UI;
 
 namespace PVPGameClient
 {
@@ -40,6 +41,11 @@ namespace PVPGameClient
             GameHandler.I.ConnexionPanel.Reset();
             GameHandler.I.ConnexionPanel.Visible = false;
             GameHandler.I.AwaitConnexion = false;
+
+            UserInterface.Active.RemoveEntity(GameHandler.I.ConnexionPanel);
+
+            // Start the game
+            GameHandler.I.StartGame();
         }
         private void HandleOK(byte[] data)
         {

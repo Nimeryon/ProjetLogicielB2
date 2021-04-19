@@ -95,14 +95,12 @@ namespace PVPGameClient
             _font = Content.Load<SpriteFont>("Fonts/PixelFont");
             _texture = Content.Load<Texture2D>("Sprites/Characters/player_1");
 
-            Player = new Player(_texture, new Vector2(Width / 6, Height / 2));
-
             // Initialize important systems
             new TickSystem();
             new InputSystem();
             FPS = new FPSCounter();
 
-            InitializeUI();  
+            InitializeUI();
             
             base.LoadContent();
         }
@@ -121,13 +119,8 @@ namespace PVPGameClient
             {
                 FPS.HideShow();
             }
-            if (InputSystem.GetKeyUp(Keys.Escape))
-            {
-                ClienTCP.Disconnect();
-                ConnexionPanel.Visible = true;
-            }
 
-            // update UI
+            // Update UI
             UserInterface.Active.Update(gameTime);
 
             LateUpdate();
@@ -151,9 +144,7 @@ namespace PVPGameClient
 
             SamplerState state = new SamplerState { Filter = TextureFilter.Point };
             SpriteBatch.Begin(samplerState: state);
-            // Events
             OnDraw?.Invoke();
-
             SpriteBatch.End();
 
             // finalize ui rendering
@@ -166,6 +157,10 @@ namespace PVPGameClient
             // Connexion panel
             ConnexionPanel = new ConnexionPanel(new Vector2(480, -1));
             UserInterface.Active.AddEntity(ConnexionPanel);
+        }
+        public void StartGame()
+        {
+            Player = new Player(_texture, new Vector2(Width / 6, Height / 2));
         }
     }
 }
