@@ -167,13 +167,5 @@ namespace PVPGameClient
             ConnexionPanel = new ConnexionPanel(new Vector2(480, -1));
             UserInterface.Active.AddEntity(ConnexionPanel);
         }
-        public void OnConnected()
-        {
-            ConnexionTimer.Dispose();
-            ClienTCP.SendLogin(ConnexionPanel.Pseudo.Value);
-            ConnexionPanel.Reset();
-            ConnexionPanel.Visible = false;
-            AwaitConnexion = false;
-        }
     }
 }

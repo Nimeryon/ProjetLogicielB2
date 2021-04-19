@@ -35,7 +35,11 @@ namespace PVPGameClient
         private void HandleServerConnected(byte[] data)
         {
             Console.WriteLine("Serveur connecté!");
-            GameHandler.I.OnConnected();
+            GameHandler.I.ConnexionTimer.Dispose();
+            GameHandler.ClienTCP.SendLogin(GameHandler.I.ConnexionPanel.Pseudo.Value);
+            GameHandler.I.ConnexionPanel.Reset();
+            GameHandler.I.ConnexionPanel.Visible = false;
+            GameHandler.I.AwaitConnexion = false;
         }
         private void HandleOK(byte[] data)
         {
