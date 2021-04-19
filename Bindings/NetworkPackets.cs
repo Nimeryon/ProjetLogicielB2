@@ -6,7 +6,8 @@ namespace Bindings
 {
     public enum ServerPackets
     {
-
+        ServerOK = 1,
+        ServerConnected = 2,
     }
 
     public enum ClientPackets

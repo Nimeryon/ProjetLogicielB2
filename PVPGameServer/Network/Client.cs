@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
-using System.Net;
-using System.IO;
+using Bindings;
 
 namespace PVPGameServer
 {
@@ -14,8 +13,6 @@ namespace PVPGameServer
         public bool Closing;
         public byte[] ReadBuff;
 
-        private ServerDataHandler DataHandler;
-
         public Client(int index, string ip, TcpClient socket)
         {
             Index = index;
@@ -26,7 +23,6 @@ namespace PVPGameServer
 
         public void Start()
         {
-            DataHandler = new ServerDataHandler();
             Socket.SendBufferSize = 4096;
             Socket.ReceiveBufferSize = 4096;
             Stream = Socket.GetStream();
@@ -34,7 +30,6 @@ namespace PVPGameServer
             Array.Resize(ref ReadBuff, Socket.ReceiveBufferSize);
             Stream.BeginRead(ReadBuff, 0, Socket.ReceiveBufferSize, OnReceiveData, null);
         }
-
         public void OnReceiveData(IAsyncResult asyncResult)
         {
             try
@@ -49,8 +44,9 @@ namespace PVPGameServer
                 byte[] newBytes = null;
                 Array.Resize(ref newBytes, readBytes);
                 Buffer.BlockCopy(ReadBuff, 0, newBytes, 0, readBytes);
+
                 // Data
-                DataHandler.HandleNetworkMessages(Index, newBytes);
+                General.DataHandler.HandleNetworkMessages(Index, newBytes);
                 Stream.BeginRead(ReadBuff, 0, Socket.ReceiveBufferSize, OnReceiveData, null);
             }
             catch
@@ -58,12 +54,37 @@ namespace PVPGameServer
                 CloseSocket();
             }
         }
-
         public void CloseSocket()
         {
             Console.WriteLine(string.Format("Index {0}:{1} à étais coupé.", Index, Ip));
             Socket.Close();
             ServerTCP.Clients[Index] = null;
+        }
+        public void SendData(byte[] data)
+        {
+            if (Stream == null) Stream = Socket.GetStream();
+
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddBytes(data);
+            Stream.Write(buffer.ToArray(), 0, buffer.Count());
+            buffer.Dispose();
+        }
+
+        // Sender
+        public void SendServerConnected()
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddInt((int)ServerPackets.ServerConnected);
+            SendData(buffer.ToArray());
+            buffer.Dispose();
+            Console.WriteLine("Envoie du message de connexion au client.");
+        }
+        public void SendOK()
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddInt((int)ServerPackets.ServerOK);
+            SendData(buffer.ToArray());
+            buffer.Dispose();
         }
     }
 }

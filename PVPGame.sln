@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVPGameClient", ".\PVPGameClient\PVPGameClient.csproj", "{61E7F22C-F4D0-4418-881C-A7E872E44A95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVPGameClient", "PVPGameClient\PVPGameClient.csproj", "{61E7F22C-F4D0-4418-881C-A7E872E44A95}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVPGameServer", ".\PVPGameServer\PVPGameServer.csproj", "{E265F294-6863-4F19-ABC6-A5A0FB89A0C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVPGameServer", "PVPGameServer\PVPGameServer.csproj", "{E265F294-6863-4F19-ABC6-A5A0FB89A0C5}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Bindings", ".\Bindings\Bindings.shproj", "{6B7787AC-6F14-449C-8034-F0734BE715FB}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Bindings", "Bindings\Bindings.shproj", "{6B7787AC-6F14-449C-8034-F0734BE715FB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeonBit.UI", "GeonBit.UI\GeonBit.UI.csproj", "{D2020A29-A466-4C8D-9D01-03AE0441AF66}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		.\Bindings\Bindings.projitems*{6b7787ac-6f14-449c-8034-f0734be715fb}*SharedItemsImports = 13
+		Bindings\Bindings.projitems*{6b7787ac-6f14-449c-8034-f0734be715fb}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{E265F294-6863-4F19-ABC6-A5A0FB89A0C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E265F294-6863-4F19-ABC6-A5A0FB89A0C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E265F294-6863-4F19-ABC6-A5A0FB89A0C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2020A29-A466-4C8D-9D01-03AE0441AF66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2020A29-A466-4C8D-9D01-03AE0441AF66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2020A29-A466-4C8D-9D01-03AE0441AF66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2020A29-A466-4C8D-9D01-03AE0441AF66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,8 +4,8 @@ namespace PVPGameServer
 {
     class General
     {
-        private ServerTCP serverTCP;
-        private ServerDataHandler DataHandler;
+        public static ServerTCP serverTCP;
+        public static ServerDataHandler DataHandler;
 
         public void InitialiseServer()
         {

@@ -2,11 +2,21 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Threading;
+
+// using GeonBit UI elements
+using GeonBit.UI.Entities;
+using GeonBit.UI.Entities.TextValidators;
+using GeonBit.UI.DataTypes;
+using GeonBit.UI.Utils.Forms;
+using GeonBit.UI;
 
 namespace PVPGameClient
 {
     public class GameHandler : Game
     {
+        public static GameHandler I;
+
         private GraphicsDeviceManager Graphics;
         public static SpriteBatch SpriteBatch;
 
@@ -18,10 +28,18 @@ namespace PVPGameClient
         public static event UpdateEvent OnUpdate;
         public static event UpdateEvent OnLateUpdate;
 
+        // System Info
+        int Width, Height;
+
         // Important System
-        public TickSystem Ticks;
-        private InputSystem Inputs;
         private FPSCounter FPS;
+
+        // UI
+        public ConnexionPanel ConnexionPanel;
+
+        // Connexion state
+        public Timer ConnexionTimer;
+        public bool AwaitConnexion = false;
 
         // Start
         public static SpriteFont _font;
@@ -29,62 +47,69 @@ namespace PVPGameClient
         Texture2D _texture;
 
         public static ClientTCP ClienTCP;
-        private ClientDataHandler DataHandler;
+        public static ClientDataHandler DataHandler;
 
         public GameHandler()
         {
+            I = this;
             Graphics = new GraphicsDeviceManager(this)
             {
                 SynchronizeWithVerticalRetrace = false
             };
             Graphics.ApplyChanges();
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
         }
 
         protected override void Initialize()
         {
-            //IsFixedTimeStep = false;
-            Graphics.PreferredBackBufferWidth = 1080;
-            Graphics.PreferredBackBufferHeight = 720;
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // create and init the UI manager
+            UserInterface.Initialize(Content, BuiltinThemes.hd);
+            UserInterface.Active.UseRenderTarget = true;
+
+            // draw cursor outside the render target
+            UserInterface.Active.IncludeCursorInRenderTarget = false;
+
+            // Create a new SpriteBatch, which can be used to draw textures.
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // make the window fullscreen (but still with border and top control bar)
+            Width = 1600;
+            Height = 900;
+
+            Graphics.PreferredBackBufferWidth = Width;
+            Graphics.PreferredBackBufferHeight = Height;
+            Graphics.IsFullScreen = false;
             Graphics.ApplyChanges();
 
             // Server part
-            //DataHandler = new ClientDataHandler();
-            //ClienTCP = new ClientTCP();
-            base.Initialize();
+            DataHandler = new ClientDataHandler();
+            ClienTCP = new ClientTCP(false);
 
-            // Send login to server
-            //ClienTCP.SendLogin();
+            base.Initialize();
         }
         protected override void LoadContent()
         {
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
-
             _font = Content.Load<SpriteFont>("Fonts/PixelFont");
             _texture = Content.Load<Texture2D>("Sprites/Characters/player_1");
 
-            int width = Graphics.GraphicsDevice.Viewport.Width;
-            int height = Graphics.GraphicsDevice.Viewport.Height;
-
-            // Create text
-            new Text(_font, "Top Center", new Vector2(width / 2, 0f), Alignment.TopCenter);
-            new Text(_font, "Top Right", new Vector2(width, 0f), Alignment.TopRight);
-            new Text(_font, "Middle Left", new Vector2(0, height / 2), Alignment.MiddleLeft);
-            new Text(_font, "Middle Right", new Vector2(width, height / 2), Alignment.MiddleRight);
-            new Text(_font, "Bottom Left", new Vector2(0, height), Alignment.BottomLeft);
-            new Text(_font, "Bottom Center", new Vector2(width / 2, height), Alignment.BottomCenter);
-            new Text(_font, "Bottom Right", new Vector2(width, height), Alignment.BottomRight);
-
-            Player = new Player(_texture, new Vector2(width / 2, height / 2));
+            Player = new Player(_texture, new Vector2(Width / 6, Height / 2));
 
             // Initialize important systems
-            Ticks = new TickSystem();
-            Inputs = new InputSystem();
+            new TickSystem();
+            new InputSystem();
             FPS = new FPSCounter();
+
+            InitializeUI();  
+            
+            base.LoadContent();
         }
         protected override void Update(GameTime gameTime)
         {
+            if (!IsActive) return;
+
             // Set DeltaTime
             Globals.DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             BeforeUpdate();
@@ -92,8 +117,22 @@ namespace PVPGameClient
             // Events
             OnUpdate?.Invoke();
 
-            base.Update(gameTime);
+            if (InputSystem.GetKeyUp(Keys.F3))
+            {
+                FPS.HideShow();
+            }
+            if (InputSystem.GetKeyUp(Keys.Escape))
+            {
+                ClienTCP.Disconnect();
+                ConnexionPanel.Visible = true;
+            }
+
+            // update UI
+            UserInterface.Active.Update(gameTime);
+
             LateUpdate();
+
+            base.Update(gameTime);
         }
         protected void BeforeUpdate()
         {
@@ -105,6 +144,9 @@ namespace PVPGameClient
         }
         protected override void Draw(GameTime gameTime)
         {
+            // draw ui
+            UserInterface.Active.Draw(SpriteBatch);
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             SamplerState state = new SamplerState { Filter = TextureFilter.Point };
@@ -113,8 +155,25 @@ namespace PVPGameClient
             OnDraw?.Invoke();
 
             SpriteBatch.End();
-                                                                         
+
+            // finalize ui rendering
+            UserInterface.Active.DrawMainRenderTarget(SpriteBatch);
+
             base.Draw(gameTime);
+        }
+        private void InitializeUI()
+        {
+            // Connexion panel
+            ConnexionPanel = new ConnexionPanel(new Vector2(480, -1));
+            UserInterface.Active.AddEntity(ConnexionPanel);
+        }
+        public void OnConnected()
+        {
+            ConnexionTimer.Dispose();
+            ClienTCP.SendLogin(ConnexionPanel.Pseudo.Value);
+            ConnexionPanel.Reset();
+            ConnexionPanel.Visible = false;
+            AwaitConnexion = false;
         }
     }
 }

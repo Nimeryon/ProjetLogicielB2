@@ -10,12 +10,11 @@ namespace PVPGameClient
     public class ClientTCP
     {
         public TcpClient Socket;
-        private static NetworkStream Stream;
+        public NetworkStream Stream;
 
-        private ClientDataHandler DataHandler;
         private byte[] AsyncBuff;
-        private bool Connecting;
-        private bool Connected;
+        public bool Connecting;
+        public bool Connected;
 
         public ClientTCP(bool connect = true)
         {
@@ -39,10 +38,17 @@ namespace PVPGameClient
             Socket.BeginConnect("127.0.0.1", 1234, new AsyncCallback(ConnectCallback), Socket);
             Connecting = true;
         }
+        public void Disconnect()
+        {
+            if (Socket == null) return;
 
+            Connecting = false;
+            Connected = false;
+            Socket.Close();
+            Socket = null;
+        }
         public void ConnectCallback(IAsyncResult asyncResult)
         {
-            Socket.EndConnect(asyncResult);
             if (Socket.Connected == false)
             {
                 Connecting = false;
@@ -50,6 +56,7 @@ namespace PVPGameClient
                 return;
             }
 
+            Socket.EndConnect(asyncResult);
             Socket.ReceiveBufferSize = 4096;
             Socket.SendBufferSize = 4096;
             Socket.NoDelay = true;
@@ -58,9 +65,10 @@ namespace PVPGameClient
             Connecting = false;
             Connected = true;
         }
-
         public void OnReceive(IAsyncResult asyncResult)
         {
+            if (!Connected) return;
+
             int byteAmount = Stream.EndRead(asyncResult);
             byte[] bytes = null;
             Array.Resize(ref bytes, byteAmount);
@@ -68,28 +76,29 @@ namespace PVPGameClient
 
             if (byteAmount == 0) return;
 
-            DataHandler.HandleNetworkMessages(bytes);
+            GameHandler.DataHandler.HandleNetworkMessages(bytes);
             Stream.BeginRead(AsyncBuff, 0, Socket.ReceiveBufferSize + Socket.SendBufferSize, OnReceive, null);
         }
-
         public void SendData(byte[] data)
         {
+            if (!Connected) return;
+            if (Stream == null) Stream = Socket.GetStream();
+
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddBytes(data);
             Stream.Write(buffer.ToArray(), 0, buffer.Count());
             buffer.Dispose();
         }
 
-        public void SendLogin()
+        // Sender
+        public void SendLogin(string pseudo)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInt((int)ClientPackets.ClientLogin);
-            buffer.AddString("Nimerya");
-            buffer.AddString("Kevin");
+            buffer.AddString(pseudo);
             SendData(buffer.ToArray());
             buffer.Dispose();
         }
-
         public void SendMovement(Vector2 _position)
         {
             PacketBuffer buffer = new PacketBuffer();

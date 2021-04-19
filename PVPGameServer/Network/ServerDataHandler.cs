@@ -10,19 +10,16 @@ namespace PVPGameServer
         private delegate void Packet_(int index, byte[] data);
         private Dictionary<int, Packet_> Packets;
 
-        public ServerDataHandler(bool initialize = true)
-        {
-            if (initialize) InitializeMessages();
-        }
-
-        public void InitializeMessages()
+        public ServerDataHandler()
         {
             Console.WriteLine("Inisialisation des paquets réseau...");
             Packets = new Dictionary<int, Packet_>();
+
             // Add Listener to packets
             Packets.Add((int)ClientPackets.ClientLogin, HandleLogin);
             Packets.Add((int)ClientPackets.ClientMovement, HandleMovement);
         }
+
         public void HandleNetworkMessages(int index, byte[] data)
         {
             int packetNum;
@@ -33,15 +30,18 @@ namespace PVPGameServer
 
             if (Packets.TryGetValue(packetNum, out Packet_ Packet)) Packet.Invoke(index, data);
         }
+
+        // Handler
         private void HandleLogin(int index, byte[] data)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddBytes(data);
             buffer.GetInt();
             string text = buffer.GetString();
-            string text2 = buffer.GetString();
-            Console.WriteLine(string.Format("Message de Index {0} : {1}/{2}!", index, text, text2));
+            Console.WriteLine(string.Format("Message de Index {0} : {1}!", index, text));
             buffer.Dispose();
+
+            ServerTCP.Clients[index].SendOK();
         }
         private void HandleMovement(int index, byte[] data)
         {

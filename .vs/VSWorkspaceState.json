@@ -1,11 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\GeonBit.UI",
+    "\\GeonBit.UI\\Libs",
     "\\PVPGameClient",
-    "\\PVPGameClient\\Sources",
     "\\PVPGameClient\\Sources\\Game",
-    "\\PVPGameServer",
-    "\\PVPGameServer\\Network"
+    "\\PVPGameServer"
   ],
   "SelectedNode": "\\PVPGame.sln",
   "PreviewInSolutionExplorer": false

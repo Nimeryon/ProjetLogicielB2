@@ -5,21 +5,19 @@ using Bindings;
 
 namespace PVPGameClient
 {
-    class ClientDataHandler
+    public class ClientDataHandler
     {
-        public PacketBuffer Buffer = new PacketBuffer();
-
         private delegate void Packet_(byte[] data);
         private Dictionary<int, Packet_> Packets;
 
         public ClientDataHandler()
         {
-            InitializeMessages();
-        }
-
-        public void InitializeMessages()
-        {
+            Console.WriteLine("Inisialisation des paquets réseau...");
             Packets = new Dictionary<int, Packet_>();
+
+            // Add Listener to packets
+            Packets.Add((int)ServerPackets.ServerOK, HandleOK);
+            Packets.Add((int)ServerPackets.ServerConnected, HandleServerConnected);
         }
 
         public void HandleNetworkMessages(byte[] data)
@@ -31,6 +29,17 @@ namespace PVPGameClient
             buffer.Dispose();
 
             if (Packets.TryGetValue(packetNum, out Packet_ Packet)) Packet.Invoke(data);
+        }
+
+        // Handler
+        private void HandleServerConnected(byte[] data)
+        {
+            Console.WriteLine("Serveur connecté!");
+            GameHandler.I.OnConnected();
+        }
+        private void HandleOK(byte[] data)
+        {
+            Console.WriteLine("OK depuis le serveur!");
         }
     }
 }

@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Stylesheet TextureRegionAtlas="ui_stylesheet_atlas.xmat">
+  <Fonts>
+    <Font Id="KenneyMiniSquare" File="KenneyMiniSquare.fnt"/>
+    <Font Id="KenneyMiniSquareOutline" File="KenneyMiniSquareOutline.fnt"/>
+  </Fonts>
+  <LabelStyles>
+    <LabelStyle Font="KenneyMiniSquare" TextColor="#FFFFFF" DisabledTextColor="#708090" />
+  </LabelStyles>
+  <TextBoxStyles>
+    <TextBoxStyle Background="panel_simple" TextColor="#FFFFFF" DisabledTextColor="#708090" Font="KenneyMiniSquare" Cursor="cursor_ibeam" Selection="white_texture" />
+  </TextBoxStyles>
+  <ScrollViewerStyles>
+    <ScrollViewerStyle HorizontalScrollBackground="slider_fancy" HorizontalScrollKnob="scrollbar_mark" VerticalScrollBackground="scrollbar" VerticalScrollKnob="scrollbar_mark" />
+  </ScrollViewerStyles>
+  <ButtonStyles>
+    <ButtonStyle Background="button_default" OverBackground="button_default_hover" PressedBackground="button_default_down" />
+    <ButtonStyle Id="Alternative" Background="button_alternative" OverBackground="button_alternative_hover" PressedBackground="button_alternative_down" />
+    <ButtonStyle Id="Fancy" Background="button_fancy" OverBackground="button_fancy_hover" PressedBackground="button_fancy_down" />
+  </ButtonStyles>
+  <CheckBoxStyles>
+    <CheckBoxStyle>
+      <LabelStyle Font="KenneyMiniSquare" TextColor="#FFFFFF" />
+      <ImageStyle Background="checkbox" OverBackground="checkbox_hover" PressedImage="checkbox_down" />
+    </CheckBoxStyle>
+  </CheckBoxStyles>
+  <RadioButtonStyles>
+    <RadioButtonStyle>
+      <LabelStyle Font="KenneyMiniSquare" TextColor="#FFFFFF" />
+      <ImageStyle Image="radio" OverBackground="radio_hover" PressedImage="radio_down" />
+    </RadioButtonStyle>
+  </RadioButtonStyles>
+  <SpinButtonStyles>
+    <SpinButtonStyle Background="panel_simple">
+      <TextBoxStyle TextColor="#FFFFFF" DisabledTextColor="#708090" Font="KenneyMiniSquare" Cursor="cursor_ibeam" Selection="white_texture" />
+      <UpButtonStyle Width="12" Height="12" Background="button_default" OverBackground="button_default_hover" PressedBackground="button_default_down">
+        <ImageStyle Image="arrow_up" />
+      </UpButtonStyle>
+      <DownButtonStyle Width="12" Height="12" Background="button_default" OverBackground="button_default_hover" PressedBackground="button_default_down">
+        <ImageStyle Image="arrow_down" />
+      </DownButtonStyle>
+    </SpinButtonStyle>
+  </SpinButtonStyles>
+  <HorizontalSliderStyles>
+    <HorizontalSliderStyle Background="slider_default">
+      <KnobStyle>
+        <ImageStyle Image="slider_default_mark" />
+      </KnobStyle>
+    </HorizontalSliderStyle>
+  </HorizontalSliderStyles>
+  <VerticalSliderStyles>
+    <VerticalSliderStyle Background="slider_default_vertical">
+      <KnobStyle>
+        <ImageStyle Image="slider_default_mark_horizontal" />
+      </KnobStyle>
+    </VerticalSliderStyle>
+  </VerticalSliderStyles>
+  <HorizontalProgressBarStyles>
+    <HorizontalProgressBarStyle Background="progressbar" Filler="progressbar_fill" Height="16" />
+  </HorizontalProgressBarStyles>
+  <VerticalProgressBarStyles>
+    <VerticalProgressBarStyle Background="progressbar_vertical" Filler="progressbar_fil_verticall" Width="16" />
+  </VerticalProgressBarStyles>
+  <HorizontalSeparatorStyles>
+    <HorizontalSeparatorStyle Image="horizontal_line" Thickness="4" />
+  </HorizontalSeparatorStyles>
+  <VerticalSeparatorStyles>
+    <VerticalSeparatorStyle Image="horizontal_line" Thickness="3" />
+  </VerticalSeparatorStyles>
+  <ComboBoxStyles>
+    <ComboBoxStyle Background="panel_listbackground">
+      <LabelStyle Font="KenneyMiniSquare" TextColor="#FFFFFF" />
+      <ListBoxStyle Background="panel_listbackground">
+        <ListItemStyle OverBackground="panel_simple" PressedBackground="panel_simple">
+          <LabelStyle Font="KenneyMiniSquare" TextColor="#FFFFFF" DisabledTextColor="#708090" />
+        </ListItemStyle>
+        <SeparatorStyle Padding="0, 2" Image="horizontal_line" Thickness="4" />
+      </ListBoxStyle>
+    </ComboBoxStyle>
+  </ComboBoxStyles>
+  <ListBoxStyles>
+    <ListBoxStyle Background="panel_listbackground">
+      <ListItemStyle OverBackground="panel_simple" Padding="5, 0" PressedBackground="panel_simple">
+        <LabelStyle Font="KenneyMiniSquare" TextColor="#FFFFFF" DisabledTextColor="#708090" />
+      </ListItemStyle>
+      <SeparatorStyle Padding="0, 2" Image="horizontal_line" Thickness="4" />
+    </ListBoxStyle>
+  </ListBoxStyles>
+  <TabControlStyles>
+    <TabControlStyle ButtonSpacing="0">
+      <TabItemStyle OverBackground="panel_simple" Padding="5, 0" PressedBackground="panel_simple">
+        <LabelStyle Font="KenneyMiniSquare" TextColor="#FFFFFF" DisabledTextColor="#708090" />
+      </TabItemStyle>
+      <ContentStyle Background="panel_default" Padding="5" />
+    </TabControlStyle>
+  </TabControlStyles>
+  <TreeStyles>
+    <TreeStyle SelectionBackground="panel_simple" SelectionHoverBackground="panel_simple">
+      <MarkStyle>
+        <ImageStyle Image="arrow_down" PressedImage="arrow_up" />
+      </MarkStyle>
+      <LabelStyle Font="KenneyMiniSquare" TextColor="#FFFFFF" DisabledTextColor="#708090" />
+    </TreeStyle>
+  </TreeStyles>
+  <HorizontalSplitPaneStyles>
+    <HorizontalSplitPaneStyle>
+      <HandleStyle Background="horizontal_line" />
+    </HorizontalSplitPaneStyle>
+  </HorizontalSplitPaneStyles>
+  <VerticalSplitPaneStyles>
+    <VerticalSplitPaneStyle>
+      <HandleStyle Background="vertical_line" />
+    </VerticalSplitPaneStyle>
+  </VerticalSplitPaneStyles>
+  <HorizontalMenuStyles>
+    <HorizontalMenuStyle Background="button_default" SelectionHoverBackground="button_default_hover" SelectionBackground="button_default_down" SpecialCharColor="#FF0000">
+      <LabelStyle Font="KenneyMiniSquare" TextColor="#FFFFFF" DisabledTextColor="#708090" Padding="10, 0" />
+      <SeparatorStyle Image="horizontal_line" Thickness="3" />
+    </HorizontalMenuStyle>
+  </HorizontalMenuStyles>
+  <VerticalMenuStyles>
+    <VerticalMenuStyle Background="button_default" Border="#1BA1E2" BorderThickness="1"
+                       SelectionHoverBackground="button_default_hover" SelectionBackground="button_default_down"
+                       SpecialCharColor="#FF0000">
+      <ImageStyle Padding="10, 0, 0, 0" />
+      <LabelStyle Font="KenneyMiniSquare" TextColor="#FFFFFF" DisabledTextColor="#708090" Padding="10, 0" />
+      <ShortcutStyle Font="KenneyMiniSquare" TextColor="#FFFFFF" DisabledTextColor="#708090" Padding="0, 0, 10, 0" />
+      <SeparatorStyle Padding="0, 2" Image="horizontal_line" Thickness="4" />
+    </VerticalMenuStyle>
+  </VerticalMenuStyles>
+  <WindowStyles>
+    <WindowStyle Background="panel_simple" Padding="5">
+      <TitleStyle Font="KenneyMiniSquare" TextColor="#FFFFFF" />
+      <CloseButtonStyle OverBackground="checkbox" Padding="5" PressedBackground="checkbox_hover">
+        <ImageStyle Image="arrow_down" />
+      </CloseButtonStyle>
+    </WindowStyle>
+  </WindowStyles>
+</Stylesheet>
