@@ -14,5 +14,6 @@ namespace Bindings
     {
         ClientLogin = 1,
         ClientMovement = 2,
+        ClientInputs = 3
     }
 }

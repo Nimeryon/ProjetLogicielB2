@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\Entity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game\PlayerState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NetworkPackets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PacketBuffer.cs" />
   </ItemGroup>

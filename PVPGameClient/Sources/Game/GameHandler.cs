@@ -36,6 +36,7 @@ namespace PVPGameClient
 
         // UI
         public ConnexionPanel ConnexionPanel;
+        public CharacterSelectionPanel CharacterSelectionPanel;
 
         // Connexion state
         public Timer ConnexionTimer;
@@ -43,6 +44,7 @@ namespace PVPGameClient
 
         // Start
         public static SpriteFont _font;
+        public Texture2D PlayerBody;
         public Player Player;
         Texture2D _texture;
 
@@ -92,6 +94,7 @@ namespace PVPGameClient
         }
         protected override void LoadContent()
         {
+            PlayerBody = Content.Load<Texture2D>("Sprites/Characters/body");
             _font = Content.Load<SpriteFont>("Fonts/PixelFont");
             _texture = Content.Load<Texture2D>("Sprites/Characters/player_1");
 
@@ -155,8 +158,11 @@ namespace PVPGameClient
         private void InitializeUI()
         {
             // Connexion panel
-            ConnexionPanel = new ConnexionPanel(new Vector2(480, -1));
-            UserInterface.Active.AddEntity(ConnexionPanel);
+            //ConnexionPanel = new ConnexionPanel(new Vector2(480, -1));
+            //UserInterface.Active.AddEntity(ConnexionPanel);
+
+            CharacterSelectionPanel = new CharacterSelectionPanel(new Vector2(480, -1));
+            UserInterface.Active.AddEntity(CharacterSelectionPanel);
         }
         public void StartGame()
         {

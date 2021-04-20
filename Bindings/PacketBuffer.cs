@@ -81,6 +81,12 @@ namespace Bindings
             BuffUpdate = true;
         }
 
+        public void AddBool(bool input)
+        {
+            Buff.Add(input ? (byte)1 : (byte)0);
+            BuffUpdate = true;
+        }
+
         public void AddBytes(byte[] input)
         {
             Buff.AddRange(input);
@@ -188,6 +194,23 @@ namespace Bindings
                 byte res = ReadBuff[ReadPos];
                 if (peek && Count() > ReadPos) ReadPos += 1;
                 return res;
+            }
+            throw new Exception("Packet buffer à dépassé ça limite!");
+        }
+
+        public bool GetBool(bool peek = true)
+        {
+            if (Count() > ReadPos)
+            {
+                if (BuffUpdate)
+                {
+                    ReadBuff = ToArray();
+                    BuffUpdate = false;
+                }
+
+                byte res = ReadBuff[ReadPos];
+                if (peek && Count() > ReadPos) ReadPos += 1;
+                return res == 1 ? true : false;
             }
             throw new Exception("Packet buffer à dépassé ça limite!");
         }

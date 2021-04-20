@@ -39,7 +39,7 @@ namespace GeonBit.UI
         protected override void Initialize()
         {
             // create and init the UI manager
-            UserInterface.Initialize(Content, BuiltinThemes.editor);
+            UserInterface.Initialize(Content, BuiltinThemes.hd);
             UserInterface.Active.UseRenderTarget = true;
 
             // draw cursor outside the render target
