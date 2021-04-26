@@ -59,6 +59,7 @@ namespace PVPGameServer
             Console.WriteLine(string.Format("Index {0}:{1} à étais coupé.", Index, Ip));
             Socket.Close();
             ServerTCP.Clients[Index] = null;
+            SendPlayerDisconnect();
         }
         public void SendData(byte[] data)
         {
@@ -75,16 +76,48 @@ namespace PVPGameServer
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInt((int)ServerPackets.ServerConnected);
+            buffer.AddInt(Index);
             SendData(buffer.ToArray());
             buffer.Dispose();
-            Console.WriteLine("Envoie du message de connexion au client.");
+            Console.WriteLine(string.Format("Envoie du message de connexion au client {0}.", Index));
         }
-        public void SendOK()
+        public void SendPlayerConnect()
         {
             PacketBuffer buffer = new PacketBuffer();
-            buffer.AddInt((int)ServerPackets.ServerOK);
-            SendData(buffer.ToArray());
+            buffer.AddInt((int)ServerPackets.ServerPlayerConnect);
+            buffer.AddInt(Game.GetPlayersNumber());
+            // Create buffer with every player
+            for (int i = 0; i < Game.Players.Length; i++)
+            {
+                Player player = Game.Players[i];
+                if (player == null) break;
+
+                buffer.AddInt(i);
+                buffer.AddString(player.Pseudo);
+                buffer.AddFloat(player.X);
+                buffer.AddFloat(player.Y);
+            }
+            ServerTCP.SendData(buffer.ToArray());
             buffer.Dispose();
+            Console.WriteLine("Envoie à tout les clients la liste des joueurs.");
+        }
+        public void SendPlayerDisconnect()
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddInt((int)ServerPackets.ServerPlayerDisconnect);
+            buffer.AddInt(Index);
+            ServerTCP.SendData(buffer.ToArray());
+            buffer.Dispose();
+            Console.WriteLine(string.Format("Envoie à tout les clients la déconnexion du joueur {0}.", Index));
+
+            // Delete player
+            Game.Players[Index] = null;
+        }
+        public void SendPlayersState(byte[] data)
+        {
+            if (Game.Players[Index] != null && Game.Players[Index].IsReady == false) return;
+
+            ServerTCP.SendData(data);
         }
     }
 }

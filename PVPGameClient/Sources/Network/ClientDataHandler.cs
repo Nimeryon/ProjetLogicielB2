@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Bindings;
 using GeonBit.UI;
+using Microsoft.Xna.Framework;
 
 namespace PVPGameClient
 {
@@ -17,8 +18,10 @@ namespace PVPGameClient
             Packets = new Dictionary<int, Packet_>();
 
             // Add Listener to packets
-            Packets.Add((int)ServerPackets.ServerOK, HandleOK);
             Packets.Add((int)ServerPackets.ServerConnected, HandleServerConnected);
+            Packets.Add((int)ServerPackets.ServerPlayerConnect, HandlePlayerConnect);
+            Packets.Add((int)ServerPackets.ServerPlayerDisconnect, HandlePlayerDisconnect);
+            Packets.Add((int)ServerPackets.ServerPlayersState, HandlePlayersState);
         }
 
         public void HandleNetworkMessages(byte[] data)
@@ -44,12 +47,66 @@ namespace PVPGameClient
 
             UserInterface.Active.RemoveEntity(GameHandler.I.ConnexionPanel);
 
-            // Start the game
-            GameHandler.I.StartGame();
+            // Get index of player
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddBytes(data);
+            buffer.GetInt();
+            int index = buffer.GetInt();
+            buffer.Dispose();
+
+            GameHandler.CurrentPlayerIndex = index;
         }
-        private void HandleOK(byte[] data)
+        private void HandlePlayerConnect(byte[] data)
         {
-            Console.WriteLine("OK depuis le serveur!");
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddBytes(data);
+            buffer.GetInt();
+            int nbrPlayer = buffer.GetInt();
+            for (int i = 0; i < nbrPlayer; i++)
+            {
+                int index = buffer.GetInt();
+                string pseudo = buffer.GetString();
+                float x = buffer.GetFloat();
+                float y = buffer.GetFloat();
+
+                bool isCurrentPlayer = index == GameHandler.CurrentPlayerIndex;
+                Console.WriteLine(string.Format("{0} joueur: {1}.{2} | x:{3} / y:{4}", isCurrentPlayer ? "Votre" : "Nouveau", pseudo, index, x, y));
+                if (GameHandler.Players[index] == null) GameHandler.Players[index] = new Player(index, GameHandler._texture, new Vector2(x, y), isCurrentPlayer);
+            }
+            buffer.Dispose();
+        }
+        private void HandlePlayerDisconnect(byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddBytes(data);
+            buffer.GetInt();
+            int index = buffer.GetInt();
+            buffer.Dispose();
+
+            if (index != GameHandler.CurrentPlayerIndex)
+            {
+                GameHandler.Players[index].Dispose();
+                GameHandler.Players[index] = null;
+                Console.WriteLine(string.Format("Déconnexion du joueur: {0}", index));
+            }
+        }
+        private void HandlePlayersState(byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddBytes(data);
+            buffer.GetInt();
+            int nbrPlayer = buffer.GetInt();
+            for (int i = 0; i < nbrPlayer; i++)
+            {
+                int index = buffer.GetInt();
+                float x = buffer.GetFloat();
+                float y = buffer.GetFloat();
+
+                bool isCurrentPlayer = index == GameHandler.CurrentPlayerIndex;
+                Console.WriteLine(string.Format("{0} joueur {1} ce déplace en x:{2} / y:{3}", isCurrentPlayer ? "Votre" : "Le", index, x, y));
+                if (GameHandler.Players[index] != null && !isCurrentPlayer) GameHandler.Players[index].Move(new Vector2(x, y));
+            }
+            buffer.Dispose();
         }
     }
 }

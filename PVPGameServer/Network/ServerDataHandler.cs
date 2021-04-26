@@ -17,7 +17,7 @@ namespace PVPGameServer
 
             // Add Listener to packets
             Packets.Add((int)ClientPackets.ClientLogin, HandleLogin);
-            Packets.Add((int)ClientPackets.ClientMovement, HandleMovement);
+            Packets.Add((int)ClientPackets.ClientInputs, HandleInputs);
         }
 
         public void HandleNetworkMessages(int index, byte[] data)
@@ -37,21 +37,27 @@ namespace PVPGameServer
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddBytes(data);
             buffer.GetInt();
-            string text = buffer.GetString();
-            Console.WriteLine(string.Format("Message de Index {0} : {1}!", index, text));
+            string pseudo = buffer.GetString();
+            Console.WriteLine(string.Format("Message de Index {0} : {1}!", index, pseudo));
             buffer.Dispose();
 
-            ServerTCP.Clients[index].SendOK();
+            Game.Players[index] = new Player(index, pseudo, Helpers.RandomRange(20f, 300f), Helpers.RandomRange(20f, 300f));
+            ServerTCP.Clients[index].SendPlayerConnect();
+            Game.Players[index].IsReady = true;
         }
-        private void HandleMovement(int index, byte[] data)
+        private void HandleInputs(int index, byte[] data)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddBytes(data);
             buffer.GetInt();
-            float x = buffer.GetFloat();
-            float y = buffer.GetFloat();
-            Console.WriteLine(string.Format("Mouvement de Index {0} : x:{1} y:{2}", index, x, y));
+            bool up = buffer.GetBool();
+            bool down = buffer.GetBool();
+            bool left = buffer.GetBool();
+            bool right = buffer.GetBool();
+            Console.WriteLine(string.Format("Inputs de Index {0} : Up:{1} / Down:{2} / Left:{3} / Right:{4}", index, up, down, left, right));
             buffer.Dispose();
+
+            Game.Players[index].Inputs = new Input(up, down, left, right);
         }
     }
 }

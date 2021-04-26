@@ -56,7 +56,7 @@ namespace PVPGameClient
             centerPanel.AddChild(imagePanel);
 
             player = new Image(GameHandler.I.PlayerBody, Vector2.Zero);
-            Colors.ReplaceColor(player.Texture, colors);
+            //Colors.ReplaceColor(player.Texture, colors);
             imagePanel.AddChild(player);
         }
     }

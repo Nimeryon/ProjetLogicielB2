@@ -37,9 +37,25 @@ Client :
 >- Aller dans une partie
 >- Ecran win / loose
 
+## Client
+
+## Server
+Convention de paquet:
+- Client:
+>- Client response 1X
+>- Client state 2X
+>- Client navigation 3X
+
+- Serveur:
+>- Serveur response 1X
+>- Serveur state 2X
+>- Serveur navigation 3X
 
 ## Technologies
 - C# .Net Core
 - Monogame
 - Socket
 - MongoDB
+
+## Todo
+Ajout d'une convention de paquet

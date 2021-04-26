@@ -6,14 +6,25 @@ namespace Bindings
 {
     public enum ServerPackets
     {
-        ServerOK = 1,
-        ServerConnected = 2,
+        // Serveur response 1X
+        ServerConnected = 10,
+
+        // Serveur state 2X
+        ServerPlayersState = 21,
+
+        // Serveur navigation 3X
+        ServerPlayerConnect = 30,
+        ServerPlayerDisconnect = 31
     }
 
     public enum ClientPackets
     {
-        ClientLogin = 1,
-        ClientMovement = 2,
-        ClientInputs = 3
+        // Client response 1X 
+        ClientLogin = 10,
+
+        // Client state 2X 
+        ClientInputs = 20
+
+        // Client navigation 3X
     }
 }

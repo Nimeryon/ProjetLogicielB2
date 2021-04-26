@@ -91,20 +91,22 @@ namespace PVPGameClient
         }
 
         // Sender
-        public void SendLogin(string pseudo)
+        public void SendLogin(string _pseudo)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInt((int)ClientPackets.ClientLogin);
-            buffer.AddString(pseudo);
+            buffer.AddString(_pseudo);
             SendData(buffer.ToArray());
             buffer.Dispose();
         }
-        public void SendMovement(Vector2 _position)
+        public void SendState(PlayerState _state)
         {
             PacketBuffer buffer = new PacketBuffer();
-            buffer.AddInt((int)ClientPackets.ClientMovement);
-            buffer.AddFloat(_position.X);
-            buffer.AddFloat(_position.Y);
+            buffer.AddInt((int)ClientPackets.ClientInputs);
+            buffer.AddBool(_state.Up);
+            buffer.AddBool(_state.Down);
+            buffer.AddBool(_state.Left);
+            buffer.AddBool(_state.Right);
             SendData(buffer.ToArray());
             buffer.Dispose();
         }

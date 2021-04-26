@@ -10,6 +10,7 @@ using GeonBit.UI.Entities.TextValidators;
 using GeonBit.UI.DataTypes;
 using GeonBit.UI.Utils.Forms;
 using GeonBit.UI;
+using Bindings;
 
 namespace PVPGameClient
 {
@@ -41,12 +42,13 @@ namespace PVPGameClient
         // Connexion state
         public Timer ConnexionTimer;
         public bool AwaitConnexion = false;
+        public static int CurrentPlayerIndex;
 
         // Start
+        public static Player[] Players = new Player[Constants.MAX_PLAYERS];
         public static SpriteFont _font;
+        public static Texture2D _texture;
         public Texture2D PlayerBody;
-        public Player Player;
-        Texture2D _texture;
 
         public static ClientTCP ClienTCP;
         public static ClientDataHandler DataHandler;
@@ -78,8 +80,10 @@ namespace PVPGameClient
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             // make the window fullscreen (but still with border and top control bar)
-            Width = 1600;
-            Height = 900;
+            //Width = 1600;
+            //Height = 900;
+            Width = 1600 / 3 * 2;
+            Height = 900 / 3 * 2;
 
             Graphics.PreferredBackBufferWidth = Width;
             Graphics.PreferredBackBufferHeight = Height;
@@ -111,8 +115,8 @@ namespace PVPGameClient
         {
             if (!IsActive) return;
 
-            // Set DeltaTime
-            Globals.DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            // Set Time
+            Globals.GameTime = gameTime;
             BeforeUpdate();
 
             // Events
@@ -158,15 +162,11 @@ namespace PVPGameClient
         private void InitializeUI()
         {
             // Connexion panel
-            //ConnexionPanel = new ConnexionPanel(new Vector2(480, -1));
-            //UserInterface.Active.AddEntity(ConnexionPanel);
+            ConnexionPanel = new ConnexionPanel(new Vector2(480, -1));
+            UserInterface.Active.AddEntity(ConnexionPanel);
 
-            CharacterSelectionPanel = new CharacterSelectionPanel(new Vector2(480, -1));
-            UserInterface.Active.AddEntity(CharacterSelectionPanel);
-        }
-        public void StartGame()
-        {
-            Player = new Player(_texture, new Vector2(Width / 6, Height / 2));
+            //CharacterSelectionPanel = new CharacterSelectionPanel(new Vector2(480, -1));
+            //UserInterface.Active.AddEntity(CharacterSelectionPanel);
         }
     }
 }

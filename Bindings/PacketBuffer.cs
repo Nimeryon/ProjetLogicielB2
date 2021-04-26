@@ -56,6 +56,12 @@ namespace Bindings
             BuffUpdate = true;
         }
 
+        public void AddDouble(double input)
+        {
+            Buff.AddRange(BitConverter.GetBytes(input));
+            BuffUpdate = true;
+        }
+
         public void AddShort(short input)
         {
             Buff.AddRange(BitConverter.GetBytes(input));
@@ -123,6 +129,23 @@ namespace Bindings
 
                 float res = BitConverter.ToSingle(ReadBuff, ReadPos);
                 if (peek && Count() > ReadPos) ReadPos += 4;
+                return res;
+            }
+            throw new Exception("Packet buffer à dépassé ça limite!");
+        }
+
+        public double GetDouble(bool peek = true)
+        {
+            if (Count() > ReadPos)
+            {
+                if (BuffUpdate)
+                {
+                    ReadBuff = ToArray();
+                    BuffUpdate = false;
+                }
+
+                double res = BitConverter.ToDouble(ReadBuff, ReadPos);
+                if (peek && Count() > ReadPos) ReadPos += 8;
                 return res;
             }
             throw new Exception("Packet buffer à dépassé ça limite!");

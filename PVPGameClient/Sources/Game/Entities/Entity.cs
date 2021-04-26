@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bindings
+namespace PVPGameClient
 {
     public abstract class Entity
     {

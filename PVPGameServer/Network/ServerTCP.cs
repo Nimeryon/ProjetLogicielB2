@@ -40,11 +40,11 @@ namespace PVPGameServer
                 }
             }
         }
-        public void SendData(int index, byte[] data)
+        public static void SendData(int index, byte[] data)
         {
             if (Clients[index] != null) Clients[index].SendData(data);
         }
-        public void SendData(byte[] data)
+        public static void SendData(byte[] data)
         {
             for (int i = 0; i < Clients.Length; i++)
             {
