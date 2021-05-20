@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PVPGameClient
 {
-    class FPSCounter : IDisposable
+    public class FPSCounter : IDisposable
     {
         private Text Counter;
 

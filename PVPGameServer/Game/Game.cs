@@ -1,4 +1,5 @@
 ﻿using Bindings;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,14 @@ namespace PVPGameServer
 {
     class Game
     {
+        public static int ServerFrame = 20;
         public static DateTime StartTime = DateTime.Now;
         public static Player[] Players = new Player[Constants.MAX_PLAYERS];
+        public static Point Size = new Point();
+
+        // Deltatime calculations
+        public static float Deltatime;
+        static DateTime lastTime = DateTime.Now;
 
         public static int GetPlayersNumber()
         {
@@ -24,8 +31,20 @@ namespace PVPGameServer
         {
             return DateTime.Now.Subtract(StartTime).TotalMilliseconds;
         }
+        public static void AddPlayer(int _index, string _pseudo)
+        {
+            Players[_index] = new Player(_index, _pseudo, new Vector2(Helpers.RandomRange(20f, 1080f), 500f));
+            ServerTCP.Clients[_index].SendPlayerConnect();
+            Players[_index].IsReady = true;
+        }
         public static void Update()
         {
+            // Deltatime calculations
+            DateTime currentTime = DateTime.Now;
+            Deltatime = (float)currentTime.Subtract(lastTime).TotalSeconds * 10;
+            lastTime = currentTime;
+
+            // Packets creation
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInt((int)ServerPackets.ServerPlayersState);
             buffer.AddInt(GetPlayersNumber());

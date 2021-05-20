@@ -6,13 +6,17 @@ using System.Text;
 
 namespace PVPGameClient
 {
-    class Sprite : Renderable
+    public class Sprite : Renderable
     {
         public Texture2D Texture;
         public Rectangle? Rectangle;
         public Point Size;
 
         // Constructors
+        public Sprite(Vector2 _position)
+        {
+            Position = _position;
+        }
         public Sprite(Texture2D _texture, Vector2 _position)
         {
             Texture = _texture;
@@ -34,11 +38,24 @@ namespace PVPGameClient
             Origin = _oringNormalized;
         }
 
+        public void SetTexture(Texture2D _texture)
+        {
+            Texture = _texture;
+            Size = Texture.Bounds.Size;
+        }
+        public void SetAlignment(Alignment _alignment)
+        {
+            Alignment = _alignment;
+        }
         public void SetFromSpriteSheet(Point _index, Point _spritesCount)
         {
             Point _size = Texture.Bounds.Size / _spritesCount;
             Size = _size;
             Rectangle = new Rectangle(_index * _size, _size);
+        }
+        public void SetRectangle(Rectangle _rectangle)
+        {
+            Rectangle = _rectangle;
         }
         public override Vector2 GetSize()
         {

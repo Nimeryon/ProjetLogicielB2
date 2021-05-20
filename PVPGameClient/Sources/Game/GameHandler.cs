@@ -18,7 +18,7 @@ namespace PVPGameClient
     {
         public static GameHandler I;
 
-        private GraphicsDeviceManager Graphics;
+        public static GraphicsDeviceManager Graphics;
         public static SpriteBatch SpriteBatch;
 
         // Events
@@ -30,14 +30,19 @@ namespace PVPGameClient
         public static event UpdateEvent OnLateUpdate;
 
         // System Info
-        int Width, Height;
+        public static int Width, Height;
+        public static Viewport Viewport;
 
         // Important System
-        private FPSCounter FPS;
+        FPSCounter FPS;
 
         // UI
         public ConnexionPanel ConnexionPanel;
         public CharacterSelectionPanel CharacterSelectionPanel;
+        public DebugPanel DebugPanel;
+
+        // Test
+        public BackGround BackGround;
 
         // Connexion state
         public Timer ConnexionTimer;
@@ -98,9 +103,16 @@ namespace PVPGameClient
         }
         protected override void LoadContent()
         {
-            PlayerBody = Content.Load<Texture2D>("Sprites/Characters/body");
+            // Load Content
+            Viewport = GraphicsDevice.Viewport;
+            Loader.Content = Content;
+            Loader.Load();
+
+            PlayerBody = Loader.LoadTexture("Sprites/Characters/body");
+            _texture = Loader.LoadTexture("Sprites/Characters/player_1");
             _font = Content.Load<SpriteFont>("Fonts/PixelFont");
-            _texture = Content.Load<Texture2D>("Sprites/Characters/player_1");
+
+            BackGround = new BackGround(BackGroundColor.Gray);
 
             // Initialize important systems
             new TickSystem();
@@ -167,6 +179,41 @@ namespace PVPGameClient
 
             //CharacterSelectionPanel = new CharacterSelectionPanel(new Vector2(480, -1));
             //UserInterface.Active.AddEntity(CharacterSelectionPanel);
+        }
+        public void Connected()
+        {
+            Console.WriteLine("Serveur connecté!");
+            ConnexionTimer.Dispose();
+            ClienTCP.SendLogin(ConnexionPanel.Pseudo.Value);
+
+            UserInterface.Active.RemoveEntity(ConnexionPanel);
+            ConnexionPanel.Dispose();
+            ConnexionPanel = null;
+
+            DebugPanel = new DebugPanel(new Vector2(480f, -1));
+            UserInterface.Active.AddEntity(DebugPanel);
+        }
+        public void Disconnected()
+        {
+            Console.WriteLine("Connexion perdu!");
+
+            for(int i = 0; i < Players.Length; i++)
+            {
+                if (Players[i] == null) break;
+
+                Players[i].Dispose();
+                Players[i] = null;
+            }
+
+            ConnexionTimer.Dispose();
+
+            UserInterface.Active.RemoveEntity(DebugPanel);
+            DebugPanel.Dispose();
+
+            // Connexion panel
+            ConnexionPanel = new ConnexionPanel(new Vector2(480, -1));
+            ConnexionPanel.Error();
+            UserInterface.Active.AddEntity(ConnexionPanel);
         }
     }
 }

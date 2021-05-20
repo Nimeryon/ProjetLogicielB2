@@ -8,8 +8,6 @@ namespace PVPGameServer
         private static Thread consoleThread;
         private static General general;
 
-        private static int ServerFrame = 20;
-
         static void Main(string[] args)
         {
             general = new General();
@@ -18,7 +16,7 @@ namespace PVPGameServer
             general.InitialiseServer();
 
             // Start game
-            Timer gameTimer = new Timer(GameThread, false, 0, 1000 / ServerFrame);
+            Timer gameTimer = new Timer(GameThread, false, 0, 1000 / Game.ServerFrame);
         }
 
         static void ConsoleThread()

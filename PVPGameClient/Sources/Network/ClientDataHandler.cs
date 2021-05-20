@@ -38,15 +38,6 @@ namespace PVPGameClient
         // Handler
         private void HandleServerConnected(byte[] data)
         {
-            Console.WriteLine("Serveur connecté!");
-            GameHandler.I.ConnexionTimer.Dispose();
-            GameHandler.ClienTCP.SendLogin(GameHandler.I.ConnexionPanel.Pseudo.Value);
-            GameHandler.I.ConnexionPanel.Reset();
-            GameHandler.I.ConnexionPanel.Visible = false;
-            GameHandler.I.AwaitConnexion = false;
-
-            UserInterface.Active.RemoveEntity(GameHandler.I.ConnexionPanel);
-
             // Get index of player
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddBytes(data);
@@ -55,6 +46,8 @@ namespace PVPGameClient
             buffer.Dispose();
 
             GameHandler.CurrentPlayerIndex = index;
+
+            GameHandler.I.Connected();
         }
         private void HandlePlayerConnect(byte[] data)
         {
@@ -71,7 +64,7 @@ namespace PVPGameClient
 
                 bool isCurrentPlayer = index == GameHandler.CurrentPlayerIndex;
                 Console.WriteLine(string.Format("{0} joueur: {1}.{2} | x:{3} / y:{4}", isCurrentPlayer ? "Votre" : "Nouveau", pseudo, index, x, y));
-                if (GameHandler.Players[index] == null) GameHandler.Players[index] = new Player(index, GameHandler._texture, new Vector2(x, y), isCurrentPlayer);
+                if (GameHandler.Players[index] == null) GameHandler.Players[index] = new Player(index, pseudo, GameHandler._texture, new Vector2(x, y), isCurrentPlayer);
             }
             buffer.Dispose();
         }
@@ -103,8 +96,11 @@ namespace PVPGameClient
                 float y = buffer.GetFloat();
 
                 bool isCurrentPlayer = index == GameHandler.CurrentPlayerIndex;
-                Console.WriteLine(string.Format("{0} joueur {1} ce déplace en x:{2} / y:{3}", isCurrentPlayer ? "Votre" : "Le", index, x, y));
-                if (GameHandler.Players[index] != null && !isCurrentPlayer) GameHandler.Players[index].Move(new Vector2(x, y));
+                //Console.WriteLine(string.Format("{0} joueur {1} ce déplace en x:{2} / y:{3}", isCurrentPlayer ? "Votre" : "Le", index, x, y));
+                if (GameHandler.Players[index] != null && !isCurrentPlayer)
+                {
+                    GameHandler.Players[index].MoveAt(new Vector2(x, y));
+                }
             }
             buffer.Dispose();
         }

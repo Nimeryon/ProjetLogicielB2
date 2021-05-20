@@ -73,5 +73,9 @@ namespace PVPGameClient
             Pseudo.PlaceholderText = "Pseudo...";
             connectionText.Visible = false;
         }
+        public void Error()
+        {
+            Pseudo.PlaceholderText = "Connexion perdu...";
+        }
     }
 }

@@ -65,10 +65,17 @@ namespace PVPGameServer
         {
             if (Stream == null) Stream = Socket.GetStream();
 
-            PacketBuffer buffer = new PacketBuffer();
-            buffer.AddBytes(data);
-            Stream.Write(buffer.ToArray(), 0, buffer.Count());
-            buffer.Dispose();
+            try
+            {
+                PacketBuffer buffer = new PacketBuffer();
+                buffer.AddBytes(data);
+                Stream.Write(buffer.ToArray(), 0, buffer.Count());
+                buffer.Dispose();
+            }
+            catch (Exception e)
+            {
+                CloseSocket();
+            }
         }
 
         // Sender
@@ -94,8 +101,8 @@ namespace PVPGameServer
 
                 buffer.AddInt(i);
                 buffer.AddString(player.Pseudo);
-                buffer.AddFloat(player.X);
-                buffer.AddFloat(player.Y);
+                buffer.AddFloat(player.Position.X);
+                buffer.AddFloat(player.Position.Y);
             }
             ServerTCP.SendData(buffer.ToArray());
             buffer.Dispose();

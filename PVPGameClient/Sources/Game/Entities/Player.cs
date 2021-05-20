@@ -2,54 +2,61 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
+using PVPGameLibrary;
 
 namespace PVPGameClient
 {
-    public class Player : Entity, IDisposable
+    public class Player : PVPGameLibrary.Player
     {
         public bool IsCurrentPlayer = true;
-        public int Index;
-        public PlayerState CurrentState = new PlayerState();
-        public PlayerState OldState;
 
         private Sprite _sprite;
 
-        public Player(int _index, Texture2D _texture, Vector2 _position, bool _currentPlayer = true)
+        public Player(int _index, string _pseudo, Texture2D _texture, Vector2 _position, bool _currentPlayer = true) : base(_index, _pseudo, _position)
         {
             IsCurrentPlayer = _currentPlayer;
-            Index = _index;
-            _sprite = new Sprite(_texture, _position, Alignment.MiddleCenter);
+
+            _sprite = new Sprite(_texture, Position, Alignment.MiddleCenter);
             _sprite.SetFromSpriteSheet(new Point(1, 0), new Point(3, 4));
             if (IsCurrentPlayer) GameHandler.OnUpdate += Update;
         }
 
-        private void Update()
+        public override void Update()
         {
             if (!IsCurrentPlayer) return;
 
-            OldState = CurrentState;
-            CurrentState = new PlayerState();
+            base.Update();
 
-            Vector2 movement = Vector2.Zero;
-            if (CurrentState.Up) movement.Y -= 1;
-            if (CurrentState.Down) movement.Y += 1;
-            if (CurrentState.Left) movement.X -= 1;
-            if (CurrentState.Right) movement.X += 1;
-
-            if (movement != Vector2.Zero) _sprite.Move(Vector2.Normalize(movement) * Speed * Globals.DeltaTime10);
-
-            if (CurrentState.SameAs(OldState))
+            if (Inputs.SameAs(OldInputs))
             {
-                GameHandler.ClienTCP.SendState(CurrentState);
-                Console.WriteLine(string.Format("Up:{0} / Down:{1} / Left:{2} / Right:{3}", CurrentState.Up, CurrentState.Down, CurrentState.Left, CurrentState.Right));
+                GameHandler.ClienTCP.SendState(Inputs);
+                Console.WriteLine(string.Format("Left:{0} / Right:{1} / Jump:{2} / Attack:{3}", Inputs.Left, Inputs.Right, Inputs.Jump, Inputs.Attack));
             }
         }
-        public void Move(Vector2 pos)
+        public override float GetDeltaTime()
         {
-            _sprite.Position = pos;
+            return Globals.DeltaTime10;
         }
-        public void Dispose()
+        public override void GetInputs()
+        {
+            Inputs = new Inputs(
+                InputSystem.GetKey(Keys.Q),
+                InputSystem.GetKey(Keys.D),
+                InputSystem.GetKey(Keys.Space),
+                InputSystem.GetMouseKey(0)
+            );
+        }
+        public override void Move(Vector2 _force)
+        {
+            _sprite.Position += _force;
+            base.Move(_force);
+        }
+        public override void MoveAt(Vector2 _position)
+        {
+            _sprite.Position = _position;
+            base.MoveAt(_position);
+        }
+        public override void Dispose()
         {
             if (IsCurrentPlayer)
             {

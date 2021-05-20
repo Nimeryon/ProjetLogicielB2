@@ -1,60 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Bindings;
+using PVPGameLibrary;
 
 namespace PVPGameServer
 {
-    public class Player : Entity
+    public class Player : PVPGameLibrary.Player
     {
-        public int Index;
         public double CreationTime;
-        public string Pseudo;
-        public Input Inputs = new Input();
         public bool IsReady = false;
 
-        public Player(int _index, string _pseudo, float _x, float _y)
+        public Player(int _index, string _pseudo, Vector2 _position) : base(_index, _pseudo, _position)
         {
             CreationTime = Game.GetTime();
-            Index = _index;
-            Pseudo = _pseudo;
-            X = _x;
-            Y = _y;
         }
 
-        public void Update()
+        public override float GetDeltaTime()
         {
-            if (Inputs.Up) Y -= Speed;
-            if (Inputs.Down) Y += Speed;
-            if (Inputs.Left) X -= Speed;
-            if (Inputs.Right) X += Speed;
+            return Game.Deltatime;
+        }
+        public override void GetInputs()
+        {
+            return;
         }
         public byte[] GetPacket()
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInt(Index);
-            buffer.AddFloat(X);
-            buffer.AddFloat(Y);
+            buffer.AddFloat(Position.X);
+            buffer.AddFloat(Position.Y);
             byte[] data = buffer.ToArray();
             buffer.Dispose();
 
             return data;
-        }
-    }
-
-    public class Input
-    {
-        public bool Up;
-        public bool Down;
-        public bool Left;
-        public bool Right;
-
-        public Input(bool _up = false, bool _down = false, bool _left = false, bool _right = false)
-        {
-            Up = _up;
-            Down = _down;
-            Left = _left;
-            Right = _right;
         }
     }
 }

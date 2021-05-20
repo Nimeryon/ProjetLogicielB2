@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PVPGameClient
 {
-    class Renderable : IDisposable
+    public class Renderable : IDisposable
     {
         public Renderable Parent = null;
         public List<Renderable> Childrens = new List<Renderable>();
@@ -54,6 +54,7 @@ namespace PVPGameClient
         public Renderable()
         {
             GameHandler.OnDraw += DrawCall;
+            GameHandler.OnUpdate += Update;
         }
 
         private void NeedUpdate()
@@ -174,13 +175,18 @@ namespace PVPGameClient
         {
             return Vector2.Zero;
         }
+        public virtual void Update()
+        {
+            return;
+        }
         public virtual void Draw()
         {
-
+            return;
         }
         public void Dispose()
         {
             GameHandler.OnDraw -= DrawCall;
+            GameHandler.OnUpdate -= Update;
         }
     }
 }

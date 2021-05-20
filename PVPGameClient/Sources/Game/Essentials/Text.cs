@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PVPGameClient
 {
-    class Text : Renderable
+    public class Text : Renderable
     {
         public string TextString;
         public SpriteFont Font;

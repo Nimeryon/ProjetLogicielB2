@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Bindings;
+using Microsoft.Xna.Framework;
+using PVPGameLibrary;
 
 namespace PVPGameServer
 {
@@ -41,23 +43,21 @@ namespace PVPGameServer
             Console.WriteLine(string.Format("Message de Index {0} : {1}!", index, pseudo));
             buffer.Dispose();
 
-            Game.Players[index] = new Player(index, pseudo, Helpers.RandomRange(20f, 300f), Helpers.RandomRange(20f, 300f));
-            ServerTCP.Clients[index].SendPlayerConnect();
-            Game.Players[index].IsReady = true;
+            Game.AddPlayer(index, pseudo);
         }
         private void HandleInputs(int index, byte[] data)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddBytes(data);
             buffer.GetInt();
-            bool up = buffer.GetBool();
-            bool down = buffer.GetBool();
             bool left = buffer.GetBool();
             bool right = buffer.GetBool();
-            Console.WriteLine(string.Format("Inputs de Index {0} : Up:{1} / Down:{2} / Left:{3} / Right:{4}", index, up, down, left, right));
+            bool jump = buffer.GetBool();
+            bool attack = buffer.GetBool();
+            Console.WriteLine(string.Format("Inputs de Index {0} : Left:{1} / Right:{2} / Jump:{3} / Attack:{4}", index, left, right, jump, attack));
             buffer.Dispose();
 
-            Game.Players[index].Inputs = new Input(up, down, left, right);
+            Game.Players[index].Inputs = new Inputs(left, right, jump, attack);
         }
     }
 }

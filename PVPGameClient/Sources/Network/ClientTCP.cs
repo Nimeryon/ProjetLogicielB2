@@ -4,6 +4,7 @@ using System.Net;
 using System.IO;
 using Bindings;
 using Microsoft.Xna.Framework;
+using PVPGameLibrary;
 
 namespace PVPGameClient
 {
@@ -69,15 +70,23 @@ namespace PVPGameClient
         {
             if (!Connected) return;
 
-            int byteAmount = Stream.EndRead(asyncResult);
-            byte[] bytes = null;
-            Array.Resize(ref bytes, byteAmount);
-            Buffer.BlockCopy(AsyncBuff, 0, bytes, 0, byteAmount);
+            try
+            {
+                int byteAmount = Stream.EndRead(asyncResult);
+                byte[] bytes = null;
+                Array.Resize(ref bytes, byteAmount);
+                Buffer.BlockCopy(AsyncBuff, 0, bytes, 0, byteAmount);
 
-            if (byteAmount == 0) return;
+                if (byteAmount == 0) return;
 
-            GameHandler.DataHandler.HandleNetworkMessages(bytes);
-            Stream.BeginRead(AsyncBuff, 0, Socket.ReceiveBufferSize + Socket.SendBufferSize, OnReceive, null);
+                GameHandler.DataHandler.HandleNetworkMessages(bytes);
+                Stream.BeginRead(AsyncBuff, 0, Socket.ReceiveBufferSize + Socket.SendBufferSize, OnReceive, null);
+            }
+            catch (Exception e)
+            {
+                Disconnect();
+                GameHandler.I.Disconnected();
+            }
         }
         public void SendData(byte[] data)
         {
@@ -99,14 +108,14 @@ namespace PVPGameClient
             SendData(buffer.ToArray());
             buffer.Dispose();
         }
-        public void SendState(PlayerState _state)
+        public void SendState(Inputs _state)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInt((int)ClientPackets.ClientInputs);
-            buffer.AddBool(_state.Up);
-            buffer.AddBool(_state.Down);
             buffer.AddBool(_state.Left);
             buffer.AddBool(_state.Right);
+            buffer.AddBool(_state.Jump);
+            buffer.AddBool(_state.Attack);
             SendData(buffer.ToArray());
             buffer.Dispose();
         }
