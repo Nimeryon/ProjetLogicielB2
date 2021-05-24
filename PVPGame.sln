@@ -7,18 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVPGameClient", "PVPGameCli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVPGameServer", "PVPGameServer\PVPGameServer.csproj", "{E265F294-6863-4F19-ABC6-A5A0FB89A0C5}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Bindings", "Bindings\Bindings.shproj", "{6B7787AC-6F14-449C-8034-F0734BE715FB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeonBit.UI", "GeonBit.UI\GeonBit.UI.csproj", "{D2020A29-A466-4C8D-9D01-03AE0441AF66}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTypes", "GeonBit.UI\Libs\DataTypes\DataTypes.csproj", "{6C03A78F-6D86-4F8F-89F1-A1A3816EDC18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PVPGameLibrary", "PVPGameLibrary\PVPGameLibrary.csproj", "{E3B5A1C6-3ADB-467C-A758-E150219C8F86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PVPGameLibrary", "PVPGameLibrary\PVPGameLibrary.csproj", "{E3B5A1C6-3ADB-467C-A758-E150219C8F86}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Bindings\Bindings.projitems*{6b7787ac-6f14-449c-8034-f0734be715fb}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

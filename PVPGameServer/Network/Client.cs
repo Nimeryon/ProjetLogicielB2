@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
-using Bindings;
+using PVPGameLibrary;
 
 namespace PVPGameServer
 {

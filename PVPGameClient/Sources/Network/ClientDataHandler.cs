@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Bindings;
 using GeonBit.UI;
 using Microsoft.Xna.Framework;
+using PVPGameLibrary;
 
 namespace PVPGameClient
 {
@@ -92,14 +92,26 @@ namespace PVPGameClient
             for (int i = 0; i < nbrPlayer; i++)
             {
                 int index = buffer.GetInt();
-                float x = buffer.GetFloat();
-                float y = buffer.GetFloat();
-
-                bool isCurrentPlayer = index == GameHandler.CurrentPlayerIndex;
                 //Console.WriteLine(string.Format("{0} joueur {1} ce déplace en x:{2} / y:{3}", isCurrentPlayer ? "Votre" : "Le", index, x, y));
-                if (GameHandler.Players[index] != null && !isCurrentPlayer)
+                if (GameHandler.Players[index] != null)
                 {
-                    GameHandler.Players[index].MoveAt(new Vector2(x, y));
+                    // Create packet for the player
+                    PacketBuffer playerBuffer = new PacketBuffer();
+                    // Position
+                    playerBuffer.AddFloat(buffer.GetFloat());
+                    playerBuffer.AddFloat(buffer.GetFloat());
+                    // Scales
+                    playerBuffer.AddFloat(buffer.GetFloat());
+                    playerBuffer.AddFloat(buffer.GetFloat());
+                    // Rotation
+                    playerBuffer.AddFloat(buffer.GetFloat());
+                    // Velocity
+                    playerBuffer.AddFloat(buffer.GetFloat());
+                    playerBuffer.AddFloat(buffer.GetFloat());
+                    // Grounded
+                    playerBuffer.AddBool(buffer.GetBool());
+                    GameHandler.Players[index].LoadPacket(playerBuffer.ToArray());
+                    playerBuffer.Dispose();
                 }
             }
             buffer.Dispose();

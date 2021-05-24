@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bindings
+namespace PVPGameLibrary
 {
-    class Constants
+    public static class Constants
     {
         public const int MAX_PLAYERS = 10;
     }

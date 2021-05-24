@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Bindings;
 using PVPGameLibrary;
 
 namespace PVPGameServer
@@ -25,15 +24,13 @@ namespace PVPGameServer
         {
             return;
         }
-        public byte[] GetPacket()
+        public override byte[] GetPacket()
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInt(Index);
-            buffer.AddFloat(Position.X);
-            buffer.AddFloat(Position.Y);
+            buffer.AddBytes(base.GetPacket());
             byte[] data = buffer.ToArray();
             buffer.Dispose();
-
             return data;
         }
     }

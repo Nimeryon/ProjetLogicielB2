@@ -8,10 +8,4 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>Bindings</Import_RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)NetworkPackets.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PacketBuffer.cs" />
-  </ItemGroup>
 </Project>

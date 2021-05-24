@@ -38,5 +38,4 @@
       <HintPath>..\GeonBit.UI\Libs\DataTypes.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <Import Project="..\Bindings\Bindings.projitems" Label="Shared" />
 </Project>

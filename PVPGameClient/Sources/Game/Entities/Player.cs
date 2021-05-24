@@ -25,13 +25,26 @@ namespace PVPGameClient
         {
             if (!IsCurrentPlayer) return;
 
-            base.Update();
+            // Change behavior of client predict
+            // base.Update();
+            GetInputs();
 
             if (Inputs.SameAs(OldInputs))
             {
                 GameHandler.ClienTCP.SendState(Inputs);
                 Console.WriteLine(string.Format("Left:{0} / Right:{1} / Jump:{2} / Attack:{3}", Inputs.Left, Inputs.Right, Inputs.Jump, Inputs.Attack));
             }
+        }
+        public override void LoadPacket(byte[] data)
+        {
+            PacketBuffer buffer = new PacketBuffer();
+            buffer.AddBytes(data);
+            MoveAt(new Vector2(buffer.GetFloat(), buffer.GetFloat()));
+            Scale = new Vector2(buffer.GetFloat(), buffer.GetFloat());
+            Rotation = buffer.GetFloat();
+            Velocity = new Vector2(buffer.GetFloat(), buffer.GetFloat());
+            IsGrounded = buffer.GetBool();
+            buffer.Dispose();
         }
         public override float GetDeltaTime()
         {

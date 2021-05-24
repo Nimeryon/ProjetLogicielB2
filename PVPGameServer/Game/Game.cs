@@ -1,5 +1,5 @@
-﻿using Bindings;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using PVPGameLibrary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +12,7 @@ namespace PVPGameServer
         public static DateTime StartTime = DateTime.Now;
         public static Player[] Players = new Player[Constants.MAX_PLAYERS];
         public static Point Size = new Point();
+        public static Grid Grid = new Grid();
 
         // Deltatime calculations
         public static float Deltatime;

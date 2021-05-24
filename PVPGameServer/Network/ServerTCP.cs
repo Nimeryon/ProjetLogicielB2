@@ -3,8 +3,8 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Net;
 using System.IO;
-using Bindings;
 using System.Threading.Tasks;
+using PVPGameLibrary;
 
 namespace PVPGameServer
 {

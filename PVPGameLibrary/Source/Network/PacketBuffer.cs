@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bindings
+namespace PVPGameLibrary
 {
-    class PacketBuffer : IDisposable
+    public class PacketBuffer : IDisposable
     {
         List<byte> Buff;
         byte[] ReadBuff;

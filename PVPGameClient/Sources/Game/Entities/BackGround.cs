@@ -1,6 +1,6 @@
-﻿using Bindings;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PVPGameLibrary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,25 +21,25 @@ namespace PVPGameClient
     public class BackGround : Sprite
     {
         public BackGroundColor BackGroundColor;
-        public Vector2 Direction = new Vector2(-1, -1);
+        public Vector2 Direction = new Vector2(Helpers.RandomRange(-2f, 2f), Helpers.RandomRange(-2f, 2f));
 
-        public BackGround(BackGroundColor _color) : base(Vector2.Zero)
+        public BackGround(BackGroundColor _color) : base(new Vector2(-64, -64))
         {
             BackGroundColor = _color;
             SetTexture(Loader.BackGrounds[Helpers.RandomRange(0, 6)]);
-            SetRectangle(new Rectangle(0, 0, GameHandler.Viewport.Width + 64, GameHandler.Viewport.Height + 64));
+            SetRectangle(new Rectangle(0, 0, GameHandler.Viewport.Width + 128, GameHandler.Viewport.Height + 128));
         }
 
         public override void Update()
         {
             Move(Direction * Globals.DeltaTime10);
-            if (Position.X >= 64 || Position.X <= -64)
+            if (Position.X >= 0 || Position.X <= -128)
             {
-                Position = new Vector2(0, Position.Y);
+                Position = new Vector2(-64, Position.Y);
             }
-            if (Position.Y >= 64 || Position.Y <= -64)
+            if (Position.Y >= 0 || Position.Y <= -128)
             {
-                Position = new Vector2(Position.X, 0);
+                Position = new Vector2(Position.X, -64);
             }
         }
     }

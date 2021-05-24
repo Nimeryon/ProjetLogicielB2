@@ -10,7 +10,7 @@ using GeonBit.UI.Entities.TextValidators;
 using GeonBit.UI.DataTypes;
 using GeonBit.UI.Utils.Forms;
 using GeonBit.UI;
-using Bindings;
+using PVPGameLibrary;
 
 namespace PVPGameClient
 {
@@ -51,6 +51,7 @@ namespace PVPGameClient
 
         // Start
         public static Player[] Players = new Player[Constants.MAX_PLAYERS];
+        public static Grid Grid;
         public static SpriteFont _font;
         public static Texture2D _texture;
         public Texture2D PlayerBody;
@@ -85,10 +86,8 @@ namespace PVPGameClient
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             // make the window fullscreen (but still with border and top control bar)
-            //Width = 1600;
-            //Height = 900;
-            Width = 1600 / 3 * 2;
-            Height = 900 / 3 * 2;
+            Width = 16 * 96;
+            Height = 16 * 48;
 
             Graphics.PreferredBackBufferWidth = Width;
             Graphics.PreferredBackBufferHeight = Height;
@@ -120,12 +119,15 @@ namespace PVPGameClient
             FPS = new FPSCounter();
 
             InitializeUI();
-            
+
+            // Load Grid
+            Grid = new Grid();
+
             base.LoadContent();
         }
         protected override void Update(GameTime gameTime)
         {
-            if (!IsActive) return;
+            //if (!IsActive) return;
 
             // Set Time
             Globals.GameTime = gameTime;

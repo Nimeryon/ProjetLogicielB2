@@ -5,11 +5,8 @@ using System.Text;
 
 namespace PVPGameClient
 {
-    public class Transform
+    public class Transform : PVPGameLibrary.Transform
     {
-        public Vector2 Position = Vector2.Zero;
-        public Vector2 Scale = Vector2.One;
-        public float Rotation = 0;
         public Color Color = Color.White;
         public Alignment Alignment = Alignment.TopLeft;
         public Vector2 Origin = Vector2.Zero;
@@ -39,12 +36,6 @@ namespace PVPGameClient
                 (a.B / 255f) * (b.B / 255f),
                 (a.A / 255f) * (b.A / 255f)
             );
-        }
-        public static void Lerp(ref Transform transform1, ref Transform transform2, float amount, ref Transform result)
-        {
-            result.Position = Vector2.Lerp(transform1.Position, transform1.Position, amount);
-            result.Scale = Vector2.Lerp(transform1.Scale, transform2.Scale, amount);
-            result.Rotation = MathHelper.Lerp(transform1.Rotation, transform2.Rotation, amount);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace PVPGameClient
         {
             set
             {
-                LocalTransform.Scale.X = Math.Abs(LocalTransform.Scale.X) * (value ? -1f : 1f);
+                LocalTransform.Scale = new Vector2(Math.Abs(LocalTransform.Scale.X) * (value ? -1f : 1f), LocalTransform.Scale.Y);
             }
             get
             {
@@ -28,7 +28,7 @@ namespace PVPGameClient
         {
             set
             {
-                LocalTransform.Scale.Y = Math.Abs(LocalTransform.Scale.Y) * (value ? -1f : 1f);
+                LocalTransform.Scale = new Vector2(LocalTransform.Scale.X, Math.Abs(LocalTransform.Scale.Y) * (value ? -1f : 1f));
             }
             get
             {
