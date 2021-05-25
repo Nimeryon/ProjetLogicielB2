@@ -27,6 +27,7 @@ namespace PVPGameClient
             TextString = _text;
             Font = _font;
             Position = _position;
+            ZIndex = 100;
         }
         public Text(SpriteFont _font, string _text, Vector2 _position, Alignment _alignment)
         {
@@ -34,6 +35,7 @@ namespace PVPGameClient
             Font = _font;
             Position = _position;
             Alignment = _alignment;
+            ZIndex = 100;
         }
         public Text(SpriteFont _font, string _text, Vector2 _position, Vector2 _oringNormalized)
         {
@@ -41,6 +43,7 @@ namespace PVPGameClient
             Font = _font;
             Position = _position;
             Origin = _oringNormalized;
+            ZIndex = 100;
         }
 
         public override Vector2 GetSize()

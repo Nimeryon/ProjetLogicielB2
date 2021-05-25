@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +13,6 @@ namespace PVPGameClient
 
         private static MouseState _oldMouseState = new MouseState();
         private static MouseState _currentMouseState = new MouseState();
-
 
         public InputSystem()
         {
@@ -78,6 +78,10 @@ namespace PVPGameClient
 
                 default: return false;
             }
+        }
+        public static Point GetMousePos()
+        {
+            return _currentMouseState.Position;
         }
         public void Dispose()
         {

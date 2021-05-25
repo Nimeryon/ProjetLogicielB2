@@ -8,6 +8,7 @@ namespace PVPGameClient
 {
     public class Sprite : Renderable
     {
+        public bool DebugRectangle = false;
         public Texture2D Texture;
         public Rectangle? Rectangle;
         public Point Size;
@@ -67,6 +68,7 @@ namespace PVPGameClient
 
             Rectangle _srcRect = Rectangle ?? new Rectangle(0, 0, Texture.Width, Texture.Height);
             GameHandler.SpriteBatch.Draw(Texture, WorldTransfrom.Position, _srcRect, WorldTransfrom.Color, WorldTransfrom.Rotation, WorldTransfrom.Origin, WorldTransfrom.Scale, Effects, ZIndex);
+            if (DebugRectangle) GameHandler.SpriteBatch.Draw(Loader.Debug, WorldTransfrom.Position, null, Color.Red, WorldTransfrom.Rotation, Vector2.Zero, Vector2.One * 2, SpriteEffects.None, ZIndex + 1);
         }
     }
 }

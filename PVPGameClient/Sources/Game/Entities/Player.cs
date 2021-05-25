@@ -16,8 +16,9 @@ namespace PVPGameClient
         {
             IsCurrentPlayer = _currentPlayer;
 
-            _sprite = new Sprite(_texture, Position, Alignment.MiddleCenter);
+            _sprite = new Sprite(_texture, Position);
             _sprite.SetFromSpriteSheet(new Point(1, 0), new Point(3, 4));
+            _sprite.DebugRectangle = true;
             if (IsCurrentPlayer) GameHandler.OnUpdate += Update;
         }
 
@@ -26,8 +27,10 @@ namespace PVPGameClient
             if (!IsCurrentPlayer) return;
 
             // Change behavior of client predict
-            // base.Update();
+            //base.Update();
             GetInputs();
+
+            if (InputSystem.GetKeyDown(Keys.F4)) _sprite.DebugRectangle = !_sprite.DebugRectangle;
 
             if (Inputs.SameAs(OldInputs))
             {

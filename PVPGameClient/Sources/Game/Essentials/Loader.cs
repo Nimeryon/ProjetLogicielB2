@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace PVPGameClient
 {
@@ -14,6 +15,7 @@ namespace PVPGameClient
         public static Texture2D[] Platforms;
         public static Texture2D[] Terrains;
         public static Texture2D[] Walls;
+        public static Texture2D Debug;
 
         public static void Load()
         {
@@ -21,6 +23,7 @@ namespace PVPGameClient
             LoadPlatforms();
             LoadTerrains();
             LoadWalls();
+            Debug = LoadTexture("Sprites/Debug");
         }
         private static void LoadBackGrounds()
         {

@@ -13,6 +13,7 @@ namespace PVPGameClient
         Paragraph SamePosition;
         Paragraph Velocity;
         Paragraph IsGrounded;
+        Paragraph MousePos;
 
         public DebugPanel(Vector2 size) : base(size, anchor: Anchor.TopRight)
         {
@@ -31,6 +32,9 @@ namespace PVPGameClient
             IsGrounded = new Paragraph();
             AddChild(IsGrounded);
 
+            MousePos = new Paragraph();
+            AddChild(MousePos);
+
             Visible = false;
 
             GameHandler.OnLateUpdate += Update;
@@ -46,6 +50,7 @@ namespace PVPGameClient
                 SamePosition.Text = string.Format("Same Pos: {0}", GameHandler.Players[GameHandler.CurrentPlayerIndex].Position.X == GameHandler.Players[GameHandler.CurrentPlayerIndex].OldPosition.X);
                 Velocity.Text = string.Format("Vel: X:{0:0.000} / Y:{1:0.000}", GameHandler.Players[GameHandler.CurrentPlayerIndex].Velocity.X, GameHandler.Players[GameHandler.CurrentPlayerIndex].Velocity.Y);
                 IsGrounded.Text = GameHandler.Players[GameHandler.CurrentPlayerIndex].IsGrounded ? "Grounded" : "Not Grounded";
+                MousePos.Text = string.Format("Mouse Pos: X:{0} / Y:{1}", InputSystem.GetMousePos().X, InputSystem.GetMousePos().Y);
             }
         }
         

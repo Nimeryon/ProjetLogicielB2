@@ -136,10 +136,7 @@ namespace PVPGameClient
             // Events
             OnUpdate?.Invoke();
 
-            if (InputSystem.GetKeyUp(Keys.F3))
-            {
-                FPS.HideShow();
-            }
+            if (InputSystem.GetKeyUp(Keys.F3)) FPS.HideShow();
 
             // Update UI
             UserInterface.Active.Update(gameTime);

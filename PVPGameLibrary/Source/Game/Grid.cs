@@ -24,19 +24,48 @@ namespace PVPGameLibrary
         }
         public virtual void LoadLayout()
         {
-            for (int x = 0; x < TileGrid.GetLength(0); x++)
+            Point pos;
+            for (int x = 1; x < TileGrid.GetLength(0) - 1; x++)
             {
-                Point pos = new Point(x, TileGrid.GetLength(1) - 1);
+                pos = new Point(x, TileGrid.GetLength(1) - 1);
                 SetTile(pos, new Tile(TileType.Terrain, CollisionType.Impassable,pos.ToVector2()));
+
+                pos = new Point(x, TileGrid.GetLength(1) - 5);
+                SetTile(pos, new Tile(TileType.Platform, CollisionType.BottomPassable, pos.ToVector2()));
+
+                pos = new Point(x, TileGrid.GetLength(1) - 10);
+                SetTile(pos, new Tile(TileType.Platform, CollisionType.BottomPassable, pos.ToVector2()));
+
+                pos = new Point(x, TileGrid.GetLength(1) - 15);
+                SetTile(pos, new Tile(TileType.Platform, CollisionType.BottomPassable, pos.ToVector2()));
             }
+
+            for (int y = 0; y < TileGrid.GetLength(1); y++)
+            {
+                pos = new Point(0, y);
+                SetTile(pos, new Tile(TileType.Terrain, CollisionType.Impassable, pos.ToVector2()));
+
+                pos = new Point(TileGrid.GetLength(0) - 1, y);
+                SetTile(pos, new Tile(TileType.Terrain, CollisionType.Impassable, pos.ToVector2()));
+            }
+
+            pos = new Point(24, TileGrid.GetLength(1) - 16);
+            SetTile(pos, new Tile(TileType.Wall, CollisionType.Impassable, pos.ToVector2()));
         }
         public void SetTile(Point pos, Tile tile)
         {
             TileGrid[pos.X, pos.Y] = tile;
         }
-        public  Tile GetTile(Point gridPos)
+        public Tile GetTile(Point gridPos)
         {
-            return TileGrid[gridPos.X, gridPos.Y];
+            try
+            {
+                return TileGrid[gridPos.X, gridPos.Y];
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                return null;
+            }
         }
         public static Point GetPos(Vector2 pos)
         {
