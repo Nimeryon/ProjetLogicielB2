@@ -17,8 +17,12 @@ namespace PVPGameServer
         // Spawn Positions for player
         public static Vector2[] SpawnPositions = new Vector2[]
         {
-            new Vector2(),
-            new Vector2()
+            new Vector2(496, 275),
+            new Vector2(496, 575),
+            new Vector2(112, 500),
+            new Vector2(112, 640),
+            new Vector2(880, 500),
+            new Vector2(880, 640)   
         };
 
         // Deltatime calculations
@@ -58,7 +62,7 @@ namespace PVPGameServer
                     break;
             }
 
-            Players[_index] = new Player(_index, _pseudo, character, new Vector2(Helpers.RandomRange(20f, 1080f), 500f));
+            Players[_index] = new Player(_index, _pseudo, character, SpawnPositions[Helpers.RandomRange(0, SpawnPositions.Length - 1)]);
             ServerTCP.Clients[_index].SendPlayerConnect();
             Players[_index].IsReady = true;
         }

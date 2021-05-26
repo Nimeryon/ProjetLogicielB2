@@ -119,7 +119,7 @@ namespace PVPGameClient
             new InputSystem();
             FPS = new FPSCounter();
 
-            //InitializeUI();
+            InitializeUI();
 
             // Load Grid
             Grid = new Grid();

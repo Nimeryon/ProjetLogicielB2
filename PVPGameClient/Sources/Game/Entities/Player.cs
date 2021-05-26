@@ -72,6 +72,9 @@ namespace PVPGameClient
         }
         public void Animate()
         {
+            if (Velocity.X < 0) _animationPlayer.Sprite.Effects = SpriteEffects.FlipHorizontally;
+            else if (Velocity.X > 0) _animationPlayer.Sprite.Effects = SpriteEffects.None;
+
             if (Velocity.Y > 0) _animationPlayer.PlayAnimation(JumpAnimation);
             else if (Velocity.Y < 0) _animationPlayer.PlayAnimation(FallAnimation);
             else if (Math.Abs(Velocity.X) > 0) _animationPlayer.PlayAnimation(RunAnimation);
