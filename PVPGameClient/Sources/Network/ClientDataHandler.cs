@@ -59,12 +59,30 @@ namespace PVPGameClient
             {
                 int index = buffer.GetInt();
                 string pseudo = buffer.GetString();
+                int character = buffer.GetInt();
                 float x = buffer.GetFloat();
                 float y = buffer.GetFloat();
 
+                PlayerCharacter characterType = PlayerCharacter.Frog;
+                switch (character)
+                {
+                    case 0:
+                        characterType = PlayerCharacter.Frog;
+                        break;
+                    case 1:
+                        characterType = PlayerCharacter.Mask;
+                        break;
+                    case 2:
+                        characterType = PlayerCharacter.Pink;
+                        break;
+                    case 3:
+                        characterType = PlayerCharacter.Virtual;
+                        break;
+                }
+
                 bool isCurrentPlayer = index == GameHandler.CurrentPlayerIndex;
                 Console.WriteLine(string.Format("{0} joueur: {1}.{2} | x:{3} / y:{4}", isCurrentPlayer ? "Votre" : "Nouveau", pseudo, index, x, y));
-                if (GameHandler.Players[index] == null) GameHandler.Players[index] = new Player(index, pseudo, GameHandler._texture, new Vector2(x, y), isCurrentPlayer);
+                if (GameHandler.Players[index] == null) GameHandler.Players[index] = new Player(index, pseudo, characterType, GameHandler._texture, new Vector2(x, y), isCurrentPlayer);
             }
             buffer.Dispose();
         }

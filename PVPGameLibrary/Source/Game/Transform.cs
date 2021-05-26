@@ -60,7 +60,7 @@ namespace PVPGameLibrary
         {
             get
             {
-                return _size * Scale;
+                return _size;
             }
             set
             {
@@ -88,7 +88,7 @@ namespace PVPGameLibrary
         // Functions
         public virtual Rectangle GetBounds()
         {
-            _bounds = new Rectangle(Position.ToPoint(), (Size * Scale).ToPoint());
+            _bounds = new Rectangle(Position.ToPoint(), Size.ToPoint() * Scale.ToPoint());
             return _bounds;
         }
         public virtual void Move(Vector2 _force)

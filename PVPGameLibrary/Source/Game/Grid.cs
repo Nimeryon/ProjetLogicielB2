@@ -14,47 +14,90 @@ namespace PVPGameLibrary
         public Grid()
         {
             I = this;
-            Load();
-        }
-
-        public void Load()
-        {
             TileGrid = new Tile[96 / 2, 48 / 2];
             LoadLayout();
         }
-        public virtual void LoadLayout()
+        public void LoadLayout()
         {
-            Point pos;
+            // Terrain
             for (int x = 1; x < TileGrid.GetLength(0) - 1; x++)
             {
-                pos = new Point(x, TileGrid.GetLength(1) - 1);
-                SetTile(pos, new Tile(TileType.Terrain, CollisionType.Impassable,pos.ToVector2()));
+                SetTile(new Tile(TerrainType.Wood, new Point(x, 0)));
+                SetTile(new Tile(TerrainType.Wood, new Point(x, 1)));
 
-                pos = new Point(x, TileGrid.GetLength(1) - 5);
-                SetTile(pos, new Tile(TileType.Platform, CollisionType.BottomPassable, pos.ToVector2()));
-
-                pos = new Point(x, TileGrid.GetLength(1) - 10);
-                SetTile(pos, new Tile(TileType.Platform, CollisionType.BottomPassable, pos.ToVector2()));
-
-                pos = new Point(x, TileGrid.GetLength(1) - 15);
-                SetTile(pos, new Tile(TileType.Platform, CollisionType.BottomPassable, pos.ToVector2()));
+                SetTile(new Tile(TerrainType.Stone, new Point(x, 22)));
+                SetTile(new Tile(TerrainType.Stone, new Point(x, 23)));
             }
 
             for (int y = 0; y < TileGrid.GetLength(1); y++)
             {
-                pos = new Point(0, y);
-                SetTile(pos, new Tile(TileType.Terrain, CollisionType.Impassable, pos.ToVector2()));
+                if (y > 16)
+                {
+                    SetTile(new Tile(TerrainType.Stone, new Point(0, y)));
+                    SetTile(new Tile(TerrainType.Stone, new Point(1, y)));
 
-                pos = new Point(TileGrid.GetLength(0) - 1, y);
-                SetTile(pos, new Tile(TileType.Terrain, CollisionType.Impassable, pos.ToVector2()));
+                    SetTile(new Tile(TerrainType.Stone, new Point(46, y)));
+                    SetTile(new Tile(TerrainType.Stone, new Point(47, y)));
+                }
+                else
+                {
+                    SetTile(new Tile(TerrainType.Wood, new Point(0, y)));
+                    SetTile(new Tile(TerrainType.Wood, new Point(1, y)));
+
+                    SetTile(new Tile(TerrainType.Wood, new Point(46, y)));
+                    SetTile(new Tile(TerrainType.Wood, new Point(47, y)));
+                }
             }
 
-            pos = new Point(24, TileGrid.GetLength(1) - 16);
-            SetTile(pos, new Tile(TileType.Wall, CollisionType.Impassable, pos.ToVector2()));
+            SetTile(new Tile(TerrainType.Wood, new Point(2, 2)));
+            SetTile(new Tile(TerrainType.Wood, new Point(45, 2)));
+            SetTile(new Tile(TerrainType.Stone, new Point(2, 21)));
+            SetTile(new Tile(TerrainType.Stone, new Point(45, 21)));
+
+            TerrainPatch(new Point(9, 3), new Point(24 - 4, 19), TerrainType.GreenGrass);
+
+            PlatformPatch(3, new Point(24 - 4 - 3, 19), PlatformType.Wood);
+            TerrainPatch(new Point(2, 1), new Point(7, 16), TerrainType.YellowGrass, CollisionType.BottomPassable);
+            TerrainPatch(new Point(2, 5), new Point(7, 17), TerrainType.YellowGrass, CollisionType.Passable);
+            WallPatch(new Point(2, 2), new Point(9, 20), WallType.Iron);
+            PlatformPatch(5, new Point(41, 17), PlatformType.Stone);
+
+            PlatformPatch(3, new Point(24 + 5, 19), PlatformType.Wood);
+            TerrainPatch(new Point(2, 1), new Point(39, 16), TerrainType.YellowGrass, CollisionType.BottomPassable);
+            TerrainPatch(new Point(2, 5), new Point(39, 17), TerrainType.YellowGrass, CollisionType.Passable);
+            WallPatch(new Point(2, 2), new Point(37, 20), WallType.Iron);
+            PlatformPatch(5, new Point(2, 17), PlatformType.Stone);
         }
-        public void SetTile(Point pos, Tile tile)
+        public void TerrainPatch(Point size, Point pos, TerrainType type, CollisionType collision = CollisionType.Impassable)
         {
-            TileGrid[pos.X, pos.Y] = tile;
+            for (int y = pos.Y; y < pos.Y + size.Y; y++)
+            {
+                for (int x = pos.X; x < pos.X + size.X; x++)
+                {
+                    SetTile(new Tile(type, new Point(x, y), collision));
+                }
+            }
+        }
+        public void PlatformPatch(int length, Point pos, PlatformType type)
+        {
+            for (int x = pos.X; x < pos.X + length; x++)
+            {
+                SetTile(new Tile(type, new Point(x, pos.Y)));
+            }
+        }
+        public void WallPatch(Point size, Point pos, WallType type)
+        {
+            for (int y = pos.Y; y < pos.Y + size.Y; y++)
+            {
+                for (int x = pos.X; x < pos.X + size.X; x++)
+                {
+                    SetTile(new Tile(type, new Point(x, y)));
+                }
+            }
+        }
+        public void SetTile(Tile tile)
+        {
+            TileGrid[tile.GridPos.X, tile.GridPos.Y] = tile;
         }
         public Tile GetTile(Point gridPos)
         {
@@ -62,7 +105,7 @@ namespace PVPGameLibrary
             {
                 return TileGrid[gridPos.X, gridPos.Y];
             }
-            catch (IndexOutOfRangeException e)
+            catch
             {
                 return null;
             }

@@ -14,6 +14,13 @@ namespace PVPGameServer
         public static Point Size = new Point();
         public static Grid Grid = new Grid();
 
+        // Spawn Positions for player
+        public static Vector2[] SpawnPositions = new Vector2[]
+        {
+            new Vector2(),
+            new Vector2()
+        };
+
         // Deltatime calculations
         public static float Deltatime;
         static DateTime lastTime = DateTime.Now;
@@ -32,9 +39,26 @@ namespace PVPGameServer
         {
             return DateTime.Now.Subtract(StartTime).TotalMilliseconds;
         }
-        public static void AddPlayer(int _index, string _pseudo)
+        public static void AddPlayer(int _index, string _pseudo, string _character)
         {
-            Players[_index] = new Player(_index, _pseudo, new Vector2(Helpers.RandomRange(20f, 1080f), 500f));
+            PlayerCharacter character = PlayerCharacter.Frog;
+            switch (_character)
+            {
+                case "frog":
+                    character = PlayerCharacter.Frog;
+                    break;
+                case "mask":
+                    character = PlayerCharacter.Mask;
+                    break;
+                case "pink":
+                    character = PlayerCharacter.Pink;
+                    break;
+                case "virtual":
+                    character = PlayerCharacter.Virtual;
+                    break;
+            }
+
+            Players[_index] = new Player(_index, _pseudo, character, new Vector2(Helpers.RandomRange(20f, 1080f), 500f));
             ServerTCP.Clients[_index].SendPlayerConnect();
             Players[_index].IsReady = true;
         }

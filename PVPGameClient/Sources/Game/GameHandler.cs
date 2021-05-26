@@ -52,6 +52,7 @@ namespace PVPGameClient
         // Start
         public static Player[] Players = new Player[Constants.MAX_PLAYERS];
         public static Grid Grid;
+        public static VisualGrid VisualGrid;
         public static SpriteFont _font;
         public static Texture2D _texture;
         public Texture2D PlayerBody;
@@ -122,6 +123,7 @@ namespace PVPGameClient
 
             // Load Grid
             Grid = new Grid();
+            VisualGrid = new VisualGrid();
 
             base.LoadContent();
         }
@@ -183,7 +185,7 @@ namespace PVPGameClient
         {
             Console.WriteLine("Serveur connecté!");
             ConnexionTimer.Dispose();
-            ClienTCP.SendLogin(ConnexionPanel.Pseudo.Value);
+            ClienTCP.SendLogin(ConnexionPanel.Pseudo.Value, ConnexionPanel.Character);
 
             UserInterface.Active.RemoveEntity(ConnexionPanel);
             ConnexionPanel.Dispose();

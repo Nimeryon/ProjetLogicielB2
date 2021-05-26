@@ -5,11 +5,20 @@ using System.Text;
 
 namespace PVPGameLibrary
 {
+    public enum PlayerCharacter
+    {
+        Frog,
+        Mask,
+        Pink,
+        Virtual
+    }
+
     public class Player : Entity, IDisposable
     {
         // Properties
         public int Index;
         public string Pseudo;
+        public PlayerCharacter Character;
 
         public bool IsGrounded;
         public bool IsJumping;
@@ -21,7 +30,7 @@ namespace PVPGameLibrary
         private const float DragFactor = 0.75f;
 
         // Constants for controlling vertical movement
-        private const float JumpLaunchVelocity = -60f;
+        private const float JumpLaunchVelocity = -50f;
         private const float GravityAcceleration = 9.81f;
         private const float MaxFallSpeed = 30f;
 
@@ -41,10 +50,11 @@ namespace PVPGameLibrary
         public Inputs OldInputs;
         protected Inputs _inputs = new Inputs();
 
-        public Player(int _index, string _pseudo, Vector2 _position) : base(_position, new Vector2(32, 32))
+        public Player(int _index, string _pseudo, PlayerCharacter _character, Vector2 _position) : base(_position, new Vector2(32, 32))
         {
             Index = _index;
             Pseudo = _pseudo;
+            Character = _character;
         }
 
         public virtual void Update()
@@ -139,19 +149,9 @@ namespace PVPGameLibrary
         }
         public void CollisionTop()
         {
-            Tile topLeft = Grid.I.GetTile(new Point(GridPos.X - 1, GridPos.Y - 1));
             Tile topCenter = Grid.I.GetTile(new Point(GridPos.X, GridPos.Y - 1));
-            Tile topRight = Grid.I.GetTile(new Point(GridPos.X + 1, GridPos.Y - 1));
 
             Rectangle playerBounds = Bounds;
-
-            if (topLeft != null && playerBounds.Left < topLeft.Bounds.Left && playerBounds.Top + Velocity.Y < topLeft.Bounds.Bottom)
-            {
-                if (topLeft.CollisionType == CollisionType.Impassable)
-                {
-                    Velocity.Y = topLeft.Bounds.Bottom - playerBounds.Top;
-                }
-            }
 
             if (topCenter != null && playerBounds.Top + Velocity.Y < topCenter.Bounds.Bottom)
             {
@@ -160,51 +160,24 @@ namespace PVPGameLibrary
                     Velocity.Y = topCenter.Bounds.Bottom - playerBounds.Top;
                 }
             }
-
-            if (topRight != null && playerBounds.Right > topRight.Bounds.Right && playerBounds.Top + Velocity.Y < topRight.Bounds.Bottom)
-            {
-                if (topRight.CollisionType == CollisionType.Impassable)
-                {
-                    Velocity.Y = topRight.Bounds.Bottom - playerBounds.Top;
-                }
-            }
         }
         public void CollisionBottom()
         {
-            Tile bottomLeft = Grid.I.GetTile(new Point(GridPos.X - 1, GridPos.Y + 1));
             Tile bottomCenter = Grid.I.GetTile(new Point(GridPos.X, GridPos.Y + 1));
-            Tile bottomRight = Grid.I.GetTile(new Point(GridPos.X + 1, GridPos.Y + 1));
 
             Rectangle playerBounds = Bounds;
 
-            if (bottomLeft != null && playerBounds.Left < bottomLeft.Bounds.Left && playerBounds.Bottom + Velocity.Y > bottomLeft.Bounds.Top)
-            {
-                if (bottomLeft.CollisionType != CollisionType.Passable)
-                {
-                    Velocity.Y = bottomLeft.Bounds.Top - playerBounds.Bottom;
-                }
-            }
-
             if (bottomCenter != null && playerBounds.Bottom + Velocity.Y > bottomCenter.Bounds.Top)
             {
-                if (bottomCenter.CollisionType != CollisionType.Passable)
+                if (bottomCenter.CollisionType != CollisionType.Passable && !IsGrounded)
                 {
-                    Velocity.Y = bottomCenter.Bounds.Top - playerBounds.Bottom;
-                }
-            }
-
-            if (bottomRight != null && playerBounds.Right > bottomRight.Bounds.Right && playerBounds.Bottom + Velocity.Y > bottomRight.Bounds.Top)
-            {
-                if (bottomRight.CollisionType != CollisionType.Passable)
-                {
-                    Velocity.Y = bottomRight.Bounds.Top - playerBounds.Bottom;
+                    Velocity.Y = 0;
+                    MoveAt(new Vector2(Position.X, bottomCenter.Bounds.Top - 32));
                 }
             }
 
             // Test grounded
-            IsGrounded = (bottomLeft != null && bottomLeft.Bounds.Top <= playerBounds.Bottom + Velocity.Y) ||
-                         (bottomCenter != null && bottomCenter.Bounds.Top <= playerBounds.Bottom + Velocity.Y) ||
-                         (bottomRight != null && bottomRight.Bounds.Top <= playerBounds.Bottom + Velocity.Y);
+            IsGrounded = bottomCenter != null && bottomCenter.Bounds.Top <= playerBounds.Bottom + Velocity.Y && bottomCenter.CollisionType != CollisionType.Passable;
         }
         public void CollisionLeft()
         {
@@ -217,7 +190,6 @@ namespace PVPGameLibrary
                 if (leftCenter.CollisionType == CollisionType.Impassable)
                 {
                     Velocity.X = leftCenter.Bounds.Right - playerBounds.Left;
-                    Console.WriteLine(string.Format("Vel : {0}, player left : {1}, tile right : {2}", Velocity.ToString(), playerBounds.Left, leftCenter.Bounds.Right));
                 }
             }
         }
@@ -232,7 +204,6 @@ namespace PVPGameLibrary
                 if (rightCenter.CollisionType == CollisionType.Impassable)
                 {
                     Velocity.X = rightCenter.Bounds.Left - playerBounds.Right;
-                    Console.WriteLine(string.Format("Vel : {0}, player right : {1}, tile left : {2}", Velocity.ToString(), playerBounds.Right, rightCenter.Bounds.Left));
                 }
             }
         }

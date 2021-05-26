@@ -39,10 +39,11 @@ namespace PVPGameServer
             buffer.AddBytes(data);
             buffer.GetInt();
             string pseudo = buffer.GetString();
+            string character = buffer.GetString();
             Console.WriteLine(string.Format("Message de Index {0} : {1}!", index, pseudo));
             buffer.Dispose();
 
-            Game.AddPlayer(index, pseudo);
+            Game.AddPlayer(index, pseudo, character);
         }
         private void HandleInputs(int index, byte[] data)
         {

@@ -72,7 +72,7 @@ namespace PVPGameServer
                 Stream.Write(buffer.ToArray(), 0, buffer.Count());
                 buffer.Dispose();
             }
-            catch (Exception e)
+            catch
             {
                 CloseSocket();
             }
@@ -101,6 +101,23 @@ namespace PVPGameServer
 
                 buffer.AddInt(i);
                 buffer.AddString(player.Pseudo);
+                int characterIndex = 0;
+                switch (player.Character)
+                {
+                    case PlayerCharacter.Frog:
+                        characterIndex = 0;
+                        break;
+                    case PlayerCharacter.Mask:
+                        characterIndex = 1;
+                        break;
+                    case PlayerCharacter.Pink:
+                        characterIndex = 2;
+                        break;
+                    case PlayerCharacter.Virtual:
+                        characterIndex = 3;
+                        break;
+                }
+                buffer.AddInt(characterIndex);
                 buffer.AddFloat(player.Position.X);
                 buffer.AddFloat(player.Position.Y);
             }

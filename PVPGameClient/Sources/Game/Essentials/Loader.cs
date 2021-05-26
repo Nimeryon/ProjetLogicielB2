@@ -16,6 +16,11 @@ namespace PVPGameClient
         public static Texture2D[] Terrains;
         public static Texture2D[] Walls;
         public static Texture2D Debug;
+        // Character textures
+        public static Texture2D[] Frog;
+        public static Texture2D[] Mask;
+        public static Texture2D[] Pink;
+        public static Texture2D[] Virtual;
 
         public static void Load()
         {
@@ -23,7 +28,24 @@ namespace PVPGameClient
             LoadPlatforms();
             LoadTerrains();
             LoadWalls();
+            LoadCharacters();
             Debug = LoadTexture("Sprites/Debug");
+        }
+        private static Texture2D[] LoadCharacter(string name)
+        {
+            Texture2D[] textures = new Texture2D[4];
+            textures[0] = LoadTexture(string.Format("Sprites/Characters/{0}_fall", name));
+            textures[1] = LoadTexture(string.Format("Sprites/Characters/{0}_jump", name));
+            textures[2] = LoadTexture(string.Format("Sprites/Characters/{0}_idle", name));
+            textures[3] = LoadTexture(string.Format("Sprites/Characters/{0}_run", name));
+            return textures;
+        }
+        private static void LoadCharacters()
+        {
+            Frog = LoadCharacter("frog");
+            Mask = LoadCharacter("mask");
+            Pink = LoadCharacter("pink");
+            Virtual = LoadCharacter("virtual");
         }
         private static void LoadBackGrounds()
         {

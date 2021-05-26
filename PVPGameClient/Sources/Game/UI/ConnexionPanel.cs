@@ -13,6 +13,7 @@ using GeonBit.UI.Entities.TextValidators;
 using GeonBit.UI.DataTypes;
 using GeonBit.UI.Utils.Forms;
 using GeonBit.UI;
+using GeonBit.UI.Utils;
 
 namespace PVPGameClient
 {
@@ -20,6 +21,10 @@ namespace PVPGameClient
     {
         // UI
         public TextInput Pseudo;
+        public Image PlayerImage;
+        public SelectList CharacterList;
+
+        public string Character = "frog";
 
         private RichParagraph connectionText;
 
@@ -31,6 +36,51 @@ namespace PVPGameClient
             Pseudo = new TextInput(false);
             Pseudo.PlaceholderText = "Pseudo...";
             AddChild(Pseudo);
+
+            Panel entitiesGroup = new Panel(new Vector2(0, 200), PanelSkin.None, Anchor.Auto);
+            entitiesGroup.Padding = Vector2.Zero;
+            AddChild(entitiesGroup);
+
+            var columnPanels = PanelsGrid.GenerateColums(2, entitiesGroup);
+            foreach (var column in columnPanels) { column.Padding = Vector2.Zero; }
+            Panel leftPanel = columnPanels[0];
+            Panel rightPanel = columnPanels[1];
+
+            Panel imagePanel = new Panel(new Vector2(200, 200), PanelSkin.Simple, Anchor.AutoCenter);
+            rightPanel.AddChild(imagePanel);
+
+            PlayerImage = new Image(Loader.Frog[0], Vector2.Zero);
+            imagePanel.AddChild(PlayerImage);
+
+            leftPanel.AddChild(new Label(@"Characters", Anchor.AutoCenter));
+            CharacterList = new SelectList(new Vector2(0, 170), Anchor.Auto);
+            CharacterList.AddItem("Frog");
+            CharacterList.AddItem("Mask");
+            CharacterList.AddItem("Pink");
+            CharacterList.AddItem("Virtual");
+            CharacterList.SelectedIndex = 0;
+            leftPanel.AddChild(CharacterList);
+            CharacterList.OnValueChange = (Entity entity) =>
+            {
+                string name = ((SelectList)(entity)).SelectedValue.ToLower();
+                Character = name;
+
+                switch (name)
+                {
+                    case "frog":
+                        PlayerImage.Texture = Loader.Frog[0];
+                        break;
+                    case "mask":
+                        PlayerImage.Texture = Loader.Mask[0];
+                        break;
+                    case "pink":
+                        PlayerImage.Texture = Loader.Pink[0];
+                        break;
+                    case "virtual":
+                        PlayerImage.Texture = Loader.Virtual[0];
+                        break;
+                }
+            };
 
             Button connexion = new Button("Connexion");
             connexion.OnClick += (_) => {

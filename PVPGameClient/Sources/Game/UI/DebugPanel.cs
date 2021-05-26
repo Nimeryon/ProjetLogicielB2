@@ -1,6 +1,7 @@
 ﻿using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using PVPGameLibrary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,7 @@ namespace PVPGameClient
         Paragraph Velocity;
         Paragraph IsGrounded;
         Paragraph MousePos;
+        Paragraph MouseGridPos;
 
         public DebugPanel(Vector2 size) : base(size, anchor: Anchor.TopRight)
         {
@@ -35,6 +37,9 @@ namespace PVPGameClient
             MousePos = new Paragraph();
             AddChild(MousePos);
 
+            MouseGridPos = new Paragraph();
+            AddChild(MouseGridPos);
+
             Visible = false;
 
             GameHandler.OnLateUpdate += Update;
@@ -50,7 +55,10 @@ namespace PVPGameClient
                 SamePosition.Text = string.Format("Same Pos: {0}", GameHandler.Players[GameHandler.CurrentPlayerIndex].Position.X == GameHandler.Players[GameHandler.CurrentPlayerIndex].OldPosition.X);
                 Velocity.Text = string.Format("Vel: X:{0:0.000} / Y:{1:0.000}", GameHandler.Players[GameHandler.CurrentPlayerIndex].Velocity.X, GameHandler.Players[GameHandler.CurrentPlayerIndex].Velocity.Y);
                 IsGrounded.Text = GameHandler.Players[GameHandler.CurrentPlayerIndex].IsGrounded ? "Grounded" : "Not Grounded";
-                MousePos.Text = string.Format("Mouse Pos: X:{0} / Y:{1}", InputSystem.GetMousePos().X, InputSystem.GetMousePos().Y);
+                Point mousePos = InputSystem.GetMousePos();
+                Point mouseGridPos = Grid.GetPos(mousePos.ToVector2());
+                MousePos.Text = string.Format("Mouse Pos: X:{0} / Y:{1}", mousePos.X, mousePos.Y);
+                MouseGridPos.Text = string.Format("Mouse Grid Pos: X:{0} / Y:{1}", mouseGridPos.X, mouseGridPos.Y);
             }
         }
         

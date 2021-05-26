@@ -11,7 +11,7 @@ namespace PVPGameServer
         public double CreationTime;
         public bool IsReady = false;
 
-        public Player(int _index, string _pseudo, Vector2 _position) : base(_index, _pseudo, _position)
+        public Player(int _index, string _pseudo, PlayerCharacter _character, Vector2 _position) : base(_index, _pseudo, _character, _position)
         {
             CreationTime = Game.GetTime();
         }

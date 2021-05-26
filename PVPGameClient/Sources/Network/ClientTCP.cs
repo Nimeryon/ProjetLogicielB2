@@ -81,7 +81,7 @@ namespace PVPGameClient
                 GameHandler.DataHandler.HandleNetworkMessages(bytes);
                 Stream.BeginRead(AsyncBuff, 0, Socket.ReceiveBufferSize + Socket.SendBufferSize, OnReceive, null);
             }
-            catch (Exception e)
+            catch
             {
                 Disconnect();
                 GameHandler.I.Disconnected();
@@ -99,11 +99,12 @@ namespace PVPGameClient
         }
 
         // Sender
-        public void SendLogin(string _pseudo)
+        public void SendLogin(string _pseudo, string _character)
         {
             PacketBuffer buffer = new PacketBuffer();
             buffer.AddInt((int)ClientPackets.ClientLogin);
             buffer.AddString(_pseudo);
+            buffer.AddString(_character);
             SendData(buffer.ToArray());
             buffer.Dispose();
         }
