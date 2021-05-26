@@ -13,7 +13,7 @@ namespace PVPGameClient
         public VisualGrid()
         {
             I = this;
-            TileGrid = new VisualTile[96 / 2, 48 / 2];
+            TileGrid = new VisualTile[64 / 2, 48 / 2];
             for (int y = 0; y < TileGrid.GetLength(1); y++)
             {
                 for (int x = 0; x < TileGrid.GetLength(0); x++)

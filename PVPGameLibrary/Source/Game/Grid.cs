@@ -14,7 +14,7 @@ namespace PVPGameLibrary
         public Grid()
         {
             I = this;
-            TileGrid = new Tile[96 / 2, 48 / 2];
+            TileGrid = new Tile[64 / 2, 48 / 2];
             LoadLayout();
         }
         public void LoadLayout()
@@ -36,37 +36,40 @@ namespace PVPGameLibrary
                     SetTile(new Tile(TerrainType.Stone, new Point(0, y)));
                     SetTile(new Tile(TerrainType.Stone, new Point(1, y)));
 
-                    SetTile(new Tile(TerrainType.Stone, new Point(46, y)));
-                    SetTile(new Tile(TerrainType.Stone, new Point(47, y)));
+                    SetTile(new Tile(TerrainType.Stone, new Point(30, y)));
+                    SetTile(new Tile(TerrainType.Stone, new Point(31, y)));
                 }
                 else
                 {
                     SetTile(new Tile(TerrainType.Wood, new Point(0, y)));
                     SetTile(new Tile(TerrainType.Wood, new Point(1, y)));
 
-                    SetTile(new Tile(TerrainType.Wood, new Point(46, y)));
-                    SetTile(new Tile(TerrainType.Wood, new Point(47, y)));
+                    SetTile(new Tile(TerrainType.Wood, new Point(30, y)));
+                    SetTile(new Tile(TerrainType.Wood, new Point(31, y)));
                 }
             }
 
             SetTile(new Tile(TerrainType.Wood, new Point(2, 2)));
-            SetTile(new Tile(TerrainType.Wood, new Point(45, 2)));
+            SetTile(new Tile(TerrainType.Wood, new Point(45 - 16, 2)));
             SetTile(new Tile(TerrainType.Stone, new Point(2, 21)));
-            SetTile(new Tile(TerrainType.Stone, new Point(45, 21)));
+            SetTile(new Tile(TerrainType.Stone, new Point(45 - 16, 21)));
 
-            TerrainPatch(new Point(9, 3), new Point(24 - 4, 19), TerrainType.GreenGrass);
+            TerrainPatch(new Point(6, 3), new Point(16 - 3, 19), TerrainType.GreenGrass);
 
-            PlatformPatch(3, new Point(24 - 4 - 3, 19), PlatformType.Wood);
-            TerrainPatch(new Point(2, 1), new Point(7, 16), TerrainType.YellowGrass, CollisionType.BottomPassable);
-            TerrainPatch(new Point(2, 5), new Point(7, 17), TerrainType.YellowGrass, CollisionType.Passable);
-            WallPatch(new Point(2, 2), new Point(9, 20), WallType.Iron);
-            PlatformPatch(5, new Point(41, 17), PlatformType.Stone);
+            TerrainPatch(new Point(2, 1), new Point(5, 16), TerrainType.YellowGrass, CollisionType.BottomPassable);
+            TerrainPatch(new Point(2, 5), new Point(5, 17), TerrainType.YellowGrass, CollisionType.Passable);
+            WallPatch(new Point(2, 2), new Point(7, 20), WallType.Iron);
+            PlatformPatch(3, new Point(43 - 16, 17), PlatformType.Stone);
 
-            PlatformPatch(3, new Point(24 + 5, 19), PlatformType.Wood);
-            TerrainPatch(new Point(2, 1), new Point(39, 16), TerrainType.YellowGrass, CollisionType.BottomPassable);
-            TerrainPatch(new Point(2, 5), new Point(39, 17), TerrainType.YellowGrass, CollisionType.Passable);
-            WallPatch(new Point(2, 2), new Point(37, 20), WallType.Iron);
-            PlatformPatch(5, new Point(2, 17), PlatformType.Stone);
+            TerrainPatch(new Point(2, 1), new Point(41 - 16, 16), TerrainType.YellowGrass, CollisionType.BottomPassable);
+            TerrainPatch(new Point(2, 5), new Point(41 - 16, 17), TerrainType.YellowGrass, CollisionType.Passable);
+            WallPatch(new Point(2, 2), new Point(39 - 16, 20), WallType.Iron);
+            PlatformPatch(3, new Point(2, 17), PlatformType.Stone);
+
+            PlatformPatch(3, new Point(16 - 8, 13), PlatformType.Wood);
+            PlatformPatch(3, new Point(16 + 5, 13), PlatformType.Wood);
+
+            PlatformPatch(4, new Point(14, 10), PlatformType.Gold);
         }
         public void TerrainPatch(Point size, Point pos, TerrainType type, CollisionType collision = CollisionType.Impassable)
         {

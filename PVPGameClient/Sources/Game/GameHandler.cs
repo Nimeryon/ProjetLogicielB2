@@ -87,7 +87,7 @@ namespace PVPGameClient
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             // make the window fullscreen (but still with border and top control bar)
-            Width = 16 * 96;
+            Width = 16 * 64;
             Height = 16 * 48;
 
             Graphics.PreferredBackBufferWidth = Width;
@@ -119,7 +119,7 @@ namespace PVPGameClient
             new InputSystem();
             FPS = new FPSCounter();
 
-            InitializeUI();
+            //InitializeUI();
 
             // Load Grid
             Grid = new Grid();
